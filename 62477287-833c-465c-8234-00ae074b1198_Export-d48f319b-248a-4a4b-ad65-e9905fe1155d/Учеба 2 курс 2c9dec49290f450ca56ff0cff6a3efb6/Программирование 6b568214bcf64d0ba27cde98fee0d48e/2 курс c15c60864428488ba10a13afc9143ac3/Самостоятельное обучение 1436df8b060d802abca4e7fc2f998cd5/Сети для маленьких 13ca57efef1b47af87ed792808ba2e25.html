@@ -1,0 +1,729 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Сети для маленьких</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="13ca57ef-ef1b-47af-87ed-792808ba2e25" class="page sans"><header><h1 class="page-title">Сети для маленьких</h1><p class="page-description"></p></header><div class="page-body"><p id="5d96aeda-6b74-45d4-aed5-1c0b5cae1b8f" class="">
+</p><h2 id="0eeb9595-f79e-4e03-9330-a8f3f5aa99a9" class="">Часть1</h2><p id="4f07eb50-035a-4976-b95c-95d4f8f7ff5f" class="">
+</p><p id="65276413-8633-4746-b000-1f04637456be" class="">Сеть - проводная или беспроводная инфроструктура которая обеспечивает комунекацию хостов которые определены в ней уникальным индефикатором </p><p id="5445f990-5a3f-484b-9594-1fee9d3340e4" class="">
+</p><p id="6c8248cf-f932-44c2-892b-aa663b4670a8" class="">Критерии классификации:  </p><p id="0c9f2df4-53dc-4c5a-85b0-8a47e1146e4b" class="">мастштаб<div class="indented"><p id="5afde9f8-acf9-4065-b56e-1796bf753b10" class="">LAN - Local Area Network</p><p id="15e0bc9c-c348-4a1d-b48f-4bcfbc4020b0" class="">WAN - Wide Area Network</p><p id="0247d2e1-24ca-4f65-87e9-91162b29b9f1" class="">
+</p><p id="e8050122-d572-44f7-a35c-4772bcad42cc" class="">
+</p><p id="fc6c42bd-9f39-432e-a2d3-e9891e15fc1b" class="">WAN - соединяет отдельные LAN</p><p id="ca6ae272-abe2-49a3-97c9-0eb8f3c36b16" class="">LAN - не является часть WAN </p><p id="b7278dba-7ccb-448a-86be-0684610213c3" class="">→  внутри LAN можно обмениваться информацией и без WAN</p><p id="92015556-3a15-4462-ab59-653796490d81" class="">
+</p></div></p><p id="71da9248-100b-4217-8e89-d703cb461af1" class="">стевая топология:</p><h3 id="8cb58f6d-c3d0-48fa-b98c-a015259c8331" class="">1. Топология &quot;Шина&quot;</h3><ul id="2c9c2f92-afa5-4074-97dd-6fddce470990" class="bulleted-list"><li style="list-style-type:disc"><strong>Описание</strong>: В топологии &quot;шина&quot; все устройства подключены к общему каналу, или шине, через который они передают данные.</li></ul><ul id="73fe5ede-bbba-4123-8cf2-e44909d9c0b0" class="bulleted-list"><li style="list-style-type:disc"><strong>Режим передачи данных</strong>: Обычно <strong>half-duplex</strong>.</li></ul><ul id="b95ecb26-7160-4d4f-b589-8d864e68fcc6" class="bulleted-list"><li style="list-style-type:disc"><strong>Причина</strong>: Поскольку все устройства делят один и тот же канал, передача данных в обе стороны одновременно может вызвать коллизии. Поэтому устройства могут передавать данные только в одном направлении за раз, дожидаясь свободного канала.<figure id="b71e1d4f-86fd-4e4b-b4e4-c4b562d657f6" class="image"><a href="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5.png"><img style="width:329px" src="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5.png"/></a></figure></li></ul><h3 id="1ffff61a-ef6c-408b-99cb-27183c697135" class="">2. Топология &quot;Звезда&quot;</h3><ul id="33a6d66a-9a9b-4307-8fa7-8957ef846506" class="bulleted-list"><li style="list-style-type:disc"><strong>Описание</strong>: В &quot;звезде&quot; каждое устройство подключается напрямую к центральному узлу (например, коммутатору или концентратору).</li></ul><ul id="475d21e7-0f50-49cd-b48b-14ddda9ac257" class="bulleted-list"><li style="list-style-type:disc"><strong>Режим передачи данных</strong>: Обычно поддерживает <strong>full-duplex</strong>, если используется коммутатор, или <strong>half-duplex</strong>, если используется концентратор.</li></ul><ul id="4e538088-53df-42a4-98ef-0abc865367cf" class="bulleted-list"><li style="list-style-type:disc"><strong>Причина</strong>: В случае с коммутатором каждый канал между устройством и центральным узлом может передавать и принимать данные одновременно, что обеспечивает полнодуплексный режим. При использовании концентратора возможен только полудуплекс, так как данные передаются через общий канал.<figure id="37b2a75a-9a3d-49ac-a232-7081548abbde" class="image"><a href="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%201.png"><img style="width:170px" src="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%201.png"/></a></figure></li></ul><h3 id="0fe252ae-5910-45c8-9141-6439feb46082" class="">3. Топология &quot;Кольцо&quot;</h3><ul id="dc3cd712-17da-4285-9d0e-166bd549d52a" class="bulleted-list"><li style="list-style-type:disc"><strong>Описание</strong>: В &quot;кольце&quot; устройства соединены последовательно, и данные передаются от одного узла к другому по кругу.</li></ul><ul id="b40b3ce5-c800-4790-9e00-2ab1c6541dae" class="bulleted-list"><li style="list-style-type:disc"><strong>Режим передачи данных</strong>: Обычно <strong>half-duplex</strong>, но может быть <strong>full-duplex</strong> при определенных условиях.</li></ul><ul id="714f0e7e-ff67-4868-9718-1aa8c30d7f29" class="bulleted-list"><li style="list-style-type:disc"><strong>Причина</strong>: В классических сетях кольцо работает в полудуплексном режиме, так как данные проходят по кольцу в одном направлении. Однако при наличии двух направлений передачи (двух кабелей) и использовании специальных устройств возможна реализация полнодуплексного режима.<figure id="4597de73-ec3d-4730-9448-a684a3078f41" class="image"><a href="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%202.png"><img style="width:329px" src="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%202.png"/></a></figure></li></ul><p id="51d9ad63-204d-4387-ad33-7aecc48d3960" class="">
+</p><p id="e42e9439-8884-42c1-b6dd-d901d03a8569" class="">Full duplex - обеспечение перадчи двухстороняя передача данных</p><p id="d545d6cc-d304-4a6c-b9bb-29c597c5cb6b" class="">
+</p><p id="d55673ed-4a5d-4f3e-b8fa-2f18a65a49a1" class="">half-duplex - также двухсторняя передача данныхб, но в момент времени только в одном направлении </p><p id="1241db21-44a7-4fb3-9bd8-17e92be40e2d" class="">
+</p><p id="7329e904-4557-4810-b40b-75015edee420" class="">
+</p><p id="51e1d8c4-31a3-4924-bede-9f785b1d22fb" class="">
+</p><h2 id="dd85c855-b359-45af-88b4-cf80e065a3db" class="">Часть 2</h2><p id="2fa5355f-18eb-4990-a018-31260b232d4a" class="">
+</p><p id="45bbc155-c355-48af-b8a6-aa093f83ea65" class=""><strong>Хост</strong> — это устройство или компьютер в сети, который имеет уникальный сетевой адрес и способен обмениваться данными с другими устройствами. В контексте сетевых технологий, хостом может быть</p><p id="62a6ff63-bbdc-4b02-8fc3-e79e81e2430f" class="">
+</p><p id="5a28e8de-7a3c-4645-8abb-e744f231a2ce" class="">SSID - Service Set identifier</p><p id="8e575383-c7aa-49c8-be53-c6c77b0d7989" class="">
+</p><p id="812c7ccc-a883-4dea-a130-9299d8ec0d52" class="">Аунтификация - подтверждение личности</p><p id="781889cc-431a-4616-a944-2cee016f7b2c" class="">Авторизация - определение облости доступа и прав на выполнение</p><p id="295da4a7-defe-49f3-ac59-3e88b40c5788" class="">
+</p><p id="99d14869-aa94-46a0-b436-7fed2d04af3b" class=""> IP - уникальный сетевой индефикатор.(определяющий позицию конкретного хоста в конкретной сети)</p><p id="8bd5199e-f2a4-4f6b-9bce-b6bf44710258" class="">
+</p><p id="68c3d819-f305-43d7-ad21-592bbc9fda18" class="">При подключении к сети хост получает(обязательный набор):<div class="indented"><ul id="c40ed1ab-358c-41a4-a931-0342dc3bcd98" class="bulleted-list"><li style="list-style-type:disc">IP адресс</li></ul><ul id="b651b5a8-c50f-4946-80ad-061fdff077bc" class="bulleted-list"><li style="list-style-type:disc">Маску подсети(дает понять насколько большая сеть)</li></ul><ul id="8e5b40ba-4765-48ba-9c9e-738efd25a02a" class="bulleted-list"><li style="list-style-type:disc">Адрес основного шлюза (обычно 1)</li></ul><ul id="0ec49fd5-3f5f-4d83-8134-38b608d540bd" class="bulleted-list"><li style="list-style-type:disc">DNS серверы (обычно 2)</li></ul></div></p><p id="275a66ab-de81-40c4-9042-0de73083b43a" class="">
+</p><p id="f5fa5746-9513-4e66-a2be-5ec27fda2631" class="">  Основной шлюз - хост, на который отправляется все пакеты, отправленные за пределы сети(находится в сети с хостом)</p><p id="682a7036-1340-4f61-9feb-eb358aec36f3" class="">
+</p><p id="15619435-1977-48c6-b315-bd1b9e4b316e" class="">
+</p><p id="661a7605-ff17-4700-b6a2-ffb953213e7b" class="">DNS - Domain Name System - Система доменных имен</p><p id="9d165718-f876-41bb-9688-1a2ed5eaaf9d" class="">Resolve - процесс перевода символьного имени в ip или наоборот </p><p id="dcc3fca5-58e9-4f8c-8594-59fa9afe79c1" class="">
+</p><p id="ad8f64f3-e0c0-433b-ba60-d60e6cb628de" class="">P.s: Когда человек пишит имя сайта, хост отправляет его DNS что бы тот перевел имя в уникальный нобор чисел (IP)</p><p id="1ca7257a-9ad7-42c9-9070-d1b885e855b8" class="">
+</p><p id="d0671b33-76b1-4631-8238-72a361a6de8e" class="">Протокол - набор правил и соглашений, которые хосты используют для коммуникаций (HTTPS DNS NTP )</p><p id="dcf43a2c-2f2a-421b-9293-8f36768cb8dd" class="">
+</p><p id="f8e96df2-3400-4288-bd6e-cd2ccffb26b7" class="">Порт - коммуникационный end-point </p><p id="230b3776-fcbe-4986-8832-7896610991b8" class=""><strong>Порт</strong> — это числовой идентификатор, используемый для адресации приложений или процессов на устройстве в сети. Он работает совместно с IP-адресом для определения конкретного сервиса или приложения, которому предназначены передаваемые данные.</p><p id="2cd8d33d-2d5b-4d6a-b07d-b1bf20ba9481" class="">Значение порта 1-65535(1-2^16) (длина порта в заголовки 16 бит )</p><p id="5420d5cb-7375-46e3-8a6c-60be4a50bfc8" class="">
+</p><p id="6dec65af-b980-4fee-98f8-5f5d91cb8548" class="">Сокет[IP:Порт]: конечный пункт получателя </p><figure id="9e1e6318-3f70-4a22-92ff-2cb67ce2bd4a" class="image"><a href="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%203.png"><img style="width:197px" src="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%203.png"/></a></figure><p id="2c50f4aa-201a-4142-b224-c7186a5ceead" class=""> </p><p id="a078ab7f-7211-4bde-8d65-4693ec3c8358" class="">
+</p><p id="8a5e3470-b16a-4c5f-8ed9-4337896bd933" class=""> </p><h3 id="b80de4a5-665e-4dd1-b6ff-81d5a9d7d19a" class=""><strong>TCP (Transmission Control Protocol)</strong> </h3><p id="4ec1ce4d-8d6a-4b5e-b9cd-fd26a19ab133" class="">— это один из основных протоколов сетевого взаимодействия в стеке протоколов <strong>TCP/IP</strong>, который используется для передачи данных между устройствами в компьютерных сетях, включая интернет. Он обеспечивает надежную, упорядоченную и гарантированную доставку данных.</p><p id="1181c492-c9c3-4bee-a0c7-696614b6f595" class="">
+</p><p id="492fed32-8129-429d-aceb-f9073f159b56" class="">Основные характеристики TCP:</p><ol type="1" id="0b535e81-e1f0-4a73-b676-75120821e00c" class="numbered-list" start="1"><li><strong>Надежность</strong><p id="03620baf-6d4f-42b7-b385-8daa7bf9377c" class="">TCP гарантирует доставку данных. Если пакет потерян, он будет отправлен повторно.</p></li></ol><ol type="1" id="53734119-a5e0-477e-b8ef-7067d634142d" class="numbered-list" start="2"><li><strong>Упорядоченность</strong><p id="02b37728-513d-4850-9a21-97f765308613" class="">Данные доставляются в том порядке, в котором они были отправлены. Если пакеты приходят в неправильном порядке, TCP их сортирует.</p></li></ol><ol type="1" id="35749e25-6ff5-4a87-a19d-3df46ebfebcf" class="numbered-list" start="3"><li><strong>Контроль ошибок</strong><p id="09ab5362-166d-4835-8f94-a347024c0413" class="">TCP использует контрольные суммы, чтобы обнаруживать поврежденные данные, и повторно запрашивает их в случае ошибки.</p></li></ol><ol type="1" id="3e8e12d3-62fb-482d-9e93-1e782fd4aeb5" class="numbered-list" start="4"><li><strong>Управление потоком</strong><p id="4dcfd410-67ab-4772-9969-da5425854efd" class="">TCP регулирует объем данных, отправляемых за раз, чтобы предотвратить перегрузку сети.</p></li></ol><ol type="1" id="8c69c3d3-4071-411d-b64d-888478500b35" class="numbered-list" start="5"><li><strong>Установка соединения (handshake)</strong><p id="057f1aaa-e880-4cae-b3ab-2d70f43fee9a" class="">Перед началом передачи данных TCP устанавливает соединение между устройствами с помощью процесса <strong>трехстороннего рукопожатия (three-way handshake)</strong>:</p><ul id="38004cd5-eadd-46f6-a69f-ccc7d4bc556c" class="bulleted-list"><li style="list-style-type:disc">Клиент отправляет запрос на соединение (SYN).</li></ul><ul id="c49a1f89-31d4-4102-a63b-26fa93da30ae" class="bulleted-list"><li style="list-style-type:disc">Сервер отвечает подтверждением (SYN-ACK).</li></ul><ul id="27117191-8817-487a-8608-a226e2c52067" class="bulleted-list"><li style="list-style-type:disc">Клиент подтверждает (ACK).</li></ul></li></ol><ol type="1" id="e0bfd4ea-d90d-4aa7-a54c-8d1d571ce163" class="numbered-list" start="6"><li><strong>Закрытие соединения</strong><p id="c487faab-101b-4d6d-97ab-c60642ee8306" class="">После завершения передачи данных соединение корректно разрывается с использованием определенных сигналов (FIN, ACK).</p><p id="5a86215e-f1ac-4110-9f9d-d8e62598ed54" class="">
+</p><p id="82877643-1234-42d6-b141-aefd403062f5" class="">
+</p><p id="50e5ccb6-9715-40f4-996b-795f49cb0b66" class="">
+</p></li></ol><h3 id="6f02469e-2324-4d93-8ee9-d2fd0af284d1" class="">UDP (User Datagram Protocol)</h3><p id="41771f44-a2be-4fab-81a4-be9c9fe40cd9" class=""> — это протокол транспортного уровня в модели OSI, используемый для передачи данных в сетях. Он обеспечивает быстрый и простой способ отправки данных, но не гарантирует их доставку или правильный порядок. </p><p id="a5aa78ef-afd3-42c4-ac7f-78b2ffb7f1e2" class="">
+</p><p id="782801d2-7b31-4053-b8dd-4c6c2706baed" class="">Основные свойства UDP:</p><ol type="1" id="d50d69ed-d684-4424-9c89-f159cac3ccd2" class="numbered-list" start="1"><li><strong>Без соединения (Connectionless)</strong>:<ul id="51efd9b9-6ee5-4783-aab2-4fb9398d44d5" class="bulleted-list"><li style="list-style-type:disc">UDP не устанавливает соединение перед отправкой данных. Отправитель просто отправляет датаграммы, и получатель принимает их, если они достигают его.</li></ul></li></ol><ol type="1" id="c389b973-236b-4e49-a9e5-5d04376e2027" class="numbered-list" start="2"><li><strong>Не гарантирует доставку</strong>:<ul id="7d12e119-c77d-45fc-a8ab-8e4726ef38fc" class="bulleted-list"><li style="list-style-type:disc">Протокол не обеспечивает подтверждения получения данных, а значит, возможна потеря пакетов. Если важно гарантировать доставку, такие функции должны быть реализованы на уровне приложения.</li></ul></li></ol><ol type="1" id="94a432c1-f085-413e-b050-805ae2624d51" class="numbered-list" start="3"><li><strong>Не гарантирует порядок</strong>:<ul id="a903ae8c-1bc4-4a02-be32-f8894eaa8029" class="bulleted-list"><li style="list-style-type:disc">Пакеты могут быть получены в другом порядке, чем они были отправлены. Протокол не занимается упорядочиванием данных.</li></ul></li></ol><ol type="1" id="7c30fc9d-a8e0-45ab-928c-dd8b29999a7b" class="numbered-list" start="4"><li><strong>Минимальные накладные расходы</strong>:<ul id="d2179b10-0aec-4c2d-aa26-fb5b75e805bf" class="bulleted-list"><li style="list-style-type:disc">UDP имеет небольшие заголовки (всего 8 байт), что делает его быстрым и эффективным для передачи небольших объемов данных.</li></ul></li></ol><p id="bef80c77-69a6-440c-b3c8-829255c8470a" class="">
+</p><p id="d2f2efbd-bdba-4474-a41b-f6652d17a3de" class="">
+</p><p id="2fe5360f-1b91-491b-b9c7-1d2847a654d6" class="">
+</p><p id="02672e6d-52ec-4177-b85c-11035db17919" class="">
+</p><h2 id="5e979716-7adf-41c8-81ec-0a27f83cbdb8" class="">Часть 3</h2><p id="4c328bc9-55d4-4fe0-9e63-03f395ae62ac" class="">
+</p><h3 id="8e64d199-4a3d-4e8a-89e3-d8bdbbce15ff" class="">Модель OSI</h3><p id="690ea6eb-59f2-4f6f-a04d-940fe8588278" class="">-open systems interconnection</p><p id="7340d523-3c43-4b02-95e0-c67251a37010" class="">Концептуальная можель функций взаимодействия компьютерных и телекоммуникационных систем, не зависимо от их внутренней структуры и топологии</p><p id="cb1b07c6-2858-4c4c-ad98-3fa9a304726d" class="">
+</p><p id="0c85c339-0e8d-4df8-a68b-9b662091c6f2" class=""> P.s не используется на практики</p><p id="271c17d9-a515-42b0-8a48-ab7a275f961a" class="">
+</p><ul id="531b1d64-5526-4e82-97e9-8ea5d428afff" class="bulleted-list"><li style="list-style-type:disc">Семь уровней взаимодействия </li></ul><ul id="8cb1f767-27b4-4988-b17e-0b5cf6e0605a" class="bulleted-list"><li style="list-style-type:disc">Уровни принято распологать друг над другом</li></ul><ul id="fc7e8989-9b20-4eb5-a5a0-9a8cc8cc0ab1" class="bulleted-list"><li style="list-style-type:disc">Нумерация начинается от уровня, который ближе всех к непосредственно передаче данных</li></ul><p id="06ea19fc-10f1-442c-a1a2-66a782f7e453" class="">
+</p><p id="53cfc66f-4077-4524-8a79-c0c9e787d1b0" class=""> </p><figure id="6f82e735-d819-472b-a89f-13895c403a6f" class="image"><a href="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25A1%25D0%25BD%25D0%25B8%25D0%25BC%25D0%25BE%25D0%25BA_%25D1%258D%25D0%25BA%25D1%2580%25D0%25B0%25D0%25BD%25D0%25B0_%25D0%25BE%25D1%2582_2024-11-19_17-22-49.png"><img style="width:353px" src="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25A1%25D0%25BD%25D0%25B8%25D0%25BC%25D0%25BE%25D0%25BA_%25D1%258D%25D0%25BA%25D1%2580%25D0%25B0%25D0%25BD%25D0%25B0_%25D0%25BE%25D1%2582_2024-11-19_17-22-49.png"/></a></figure><p id="ae4eab96-f96d-4552-b298-9f1599b1a605" class="">
+</p><blockquote id="657ec193-70da-4269-a0a5-6c7ecf662dc8" class="">Физический Уровень<ul id="c92a6c5b-ce94-4c5d-9781-f7658e03c01e" class="bulleted-list"><li style="list-style-type:disc">Отправка и получение физических(сырых) данных</li></ul><ul id="a316d376-45c3-4b18-858c-c92d6a09e460" class="bulleted-list"><li style="list-style-type:disc">Цифровые биты конвертируются в электрический, оптический или радиосигнал</li></ul><ul id="25374a09-bd6e-49ce-bf50-1cc170dc0a10" class="bulleted-list"><li style="list-style-type:disc">Спицификация уровня: Вольтаж, Дистанция передачи, тип несущий и способ трансфера данных</li></ul></blockquote><p id="8cc102b1-8dd6-4a1d-be48-635458f3ebbe" class="">
+</p><blockquote id="114f7648-1b84-4eb7-a68c-f9171c99f3c8" class=""> Канальный уро вень<ul id="1560de81-9f84-4e8c-8408-390f5ff17e1d" class="bulleted-list"><li style="list-style-type:disc">Прямой линк между двумя хостами</li></ul><ul id="ef5bdb8a-3ef6-4295-9b1b-e4ec662bb213" class="bulleted-list"><li style="list-style-type:disc">Исправляет ошибки физического уровня</li></ul><ul id="955b7067-9bcf-49ad-9cac-7e3a5c697075" class="bulleted-list"><li style="list-style-type:disc">Определение начальных и конечных бит потока</li></ul><ul id="640a555e-0902-47f7-9a9f-1aad72b0147e" class="bulleted-list"><li style="list-style-type:disc">формирование фреймов (кадров)</li></ul><ul id="2352b411-42a7-458a-9e00-fcc93b0352d5" class="bulleted-list"><li style="list-style-type:disc">MAC - контроль доступа к несущей</li></ul><ul id="ab5920bc-e5e4-4e1c-8a41-736662fc525d" class="bulleted-list"><li style="list-style-type:disc">определение протокола</li></ul></blockquote><p id="0f1a037e-f2ac-47ab-ac08-e82f4bf8f644" class="">
+</p><blockquote id="63c4da60-ba46-4aed-ba6d-fdebab39bfe2" class="">Сетевой<ul id="41347325-4e9b-4335-8270-8ebdb35c2a45" class="bulleted-list"><li style="list-style-type:disc">Передача пакетов между сетями</li></ul><ul id="102bbfbc-0b03-4684-b4a7-d10e7a478ec0" class="bulleted-list"><li style="list-style-type:disc">Хост в сети - IP адресс</li></ul><ul id="21e3a959-8e87-40df-9800-0b3c95d50e11" class="bulleted-list"><li style="list-style-type:disc">Путь к получателю - маршрутизация</li></ul><ul id="e52e1e88-d727-4999-8f77-919e700da6db" class="bulleted-list"><li style="list-style-type:disc">MTU -Maximum Transfer Unit</li></ul><ul id="88497671-0edb-41ad-9767-ea258e66f135" class="bulleted-list"><li style="list-style-type:disc">Фрагментация</li></ul><p id="7a696ece-4784-4b5f-b5a9-d94833ecbf45" class=""><mark class="highlight-red">!найти как устроин IP пакет</mark></p></blockquote><p id="9101acbf-a82a-4f10-b79a-f1e4440b6a79" class="">
+</p><blockquote id="03e9cd47-33a3-42f0-baff-2c35dd98d0b5" class="">Транспортный<ul id="d53af75d-2f8e-48f2-9197-2eb1142faf2f" class="bulleted-list"><li style="list-style-type:disc">Качественная передача данных</li></ul><ul id="ab070c78-9d6d-4e35-a35e-412c5c5d3ec0" class="bulleted-list"><li style="list-style-type:disc">ОБмен между процессами</li></ul><ul id="fd0429e6-3a27-4d96-9de0-86e625f6b11b" class="bulleted-list"><li style="list-style-type:disc">Порт - разделитель входящих потоков</li></ul><ul id="7847e4f4-b5f2-40de-aa07-95751df0f576" class="bulleted-list"><li style="list-style-type:disc">Формирование сокета</li></ul><ul id="7a5f9142-608a-487b-a3e9-a255fb1dd448" class="bulleted-list"><li style="list-style-type:disc">Надежность: ACK, нумерация и сборка TCP/UDP</li></ul><p id="cf9be9ee-36ef-4fce-8529-c7298d81f45b" class=""><mark class="highlight-red">! как устроен TCP хэдер и UDP</mark></p></blockquote><p id="a74406c0-e857-4838-b087-5fb3fadecb17" class="">
+</p><blockquote id="b2de5fb2-9f41-4e97-ab9d-faa42704ce6a" class="">Сеансовый<ul id="9996fb83-39f1-4476-8231-64ae036bc14e" class="bulleted-list"><li style="list-style-type:disc">Метка проверки (checkpoints)</li></ul><ul id="16d6eef9-1373-478b-9cd4-b68606870d09" class="bulleted-list"><li style="list-style-type:disc">Simplex/ Half Duplex / Full duplex, очередность передачи</li></ul><ul id="12c18345-a618-45bd-b4a1-372b1d78c583" class="bulleted-list"><li style="list-style-type:disc">мягкое заверщение сеанса</li></ul></blockquote><p id="d274e0df-6af8-40f8-b655-d2fe662b62b8" class="">
+</p><blockquote id="e85ffe52-217e-4b26-ae89-a2c9131945b8" class="">Представлене <ul id="a3dc4724-6f3f-4260-93c5-8095d134a4c5" class="bulleted-list"><li style="list-style-type:disc">в каком виде данные</li></ul><ul id="20a4e8d4-8697-49ea-aa06-b8a79ad75fc7" class="bulleted-list"><li style="list-style-type:disc">форма чисел</li></ul><ul id="8e8b34c5-0e59-4f84-9716-d8b613411b55" class="bulleted-list"><li style="list-style-type:disc">Кодировка</li></ul><ul id="043d3f3f-c96d-4de9-9d37-a468165a7fea" class="bulleted-list"><li style="list-style-type:disc">Шифрование/Дишифрование</li></ul></blockquote><p id="dfb71174-98b8-478c-b129-85d08cbfb22c" class="">
+</p><blockquote id="42193edf-89f7-4332-ab6a-44168db417e3" class="">Прикладной<ul id="a3f3434e-f6ad-4956-a0cd-c706faed15c0" class="bulleted-list"><li style="list-style-type:disc">Up to end-user</li></ul><ul id="bbf3f92c-fcb0-4868-a696-c725b8902bc3" class="bulleted-list"><li style="list-style-type:disc">По сути, приложение</li></ul></blockquote><figure id="14a3f8ac-179e-4a66-b51e-3df3ee443e87" class="image"><a href="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25A1%25D0%25BD%25D0%25B8%25D0%25BC%25D0%25BE%25D0%25BA_%25D1%258D%25D0%25BA%25D1%2580%25D0%25B0%25D0%25BD%25D0%25B0_%25D0%25BE%25D1%2582_2024-11-19_17-39-05.png"><img style="width:353px" src="%D0%A1%D0%B5%D1%82%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%B8%D1%85%2013ca57efef1b47af87ed792808ba2e25/%25D0%25A1%25D0%25BD%25D0%25B8%25D0%25BC%25D0%25BE%25D0%25BA_%25D1%258D%25D0%25BA%25D1%2580%25D0%25B0%25D0%25BD%25D0%25B0_%25D0%25BE%25D1%2582_2024-11-19_17-39-05.png"/></a></figure><p id="289e241e-1f13-487a-b67b-2d29f7600408" class="">
+</p><p id="bf1f5e71-3bf9-40d1-afa0-82672c8355de" class=""> </p></div></article><span class="sans" style="font-size:14px;padding-top:2em"><hr/><details open="" style="padding-top:1em"><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Inline comments</summary><div class="indented"><div><p style="padding:0.2em"><b>Block text</b>: <mark class="highlight-yellow_background"><mark class="highlight-red">!найти как устроин IP пакет</mark></mark></p><ul class="toggle"><li><div><span class="user" style="padding:0.2em"><img src="https://lh3.googleusercontent.com/a/ACg8ocK-IPfw_EDH93gKIn8ziUB1NH-Wgcd3m66uTIyJQY-D=s100" class="icon user-icon"/><span><b>Владислав Рязанов</b> <time style="font-size:0.8em">Nov 19, 2024, 5:31 PM</time></span></span></div><div style="padding:0.2em">найти</div><div style="padding:0.3em"></div></li></ul></div><hr/></div><div class="indented"><div><p style="padding:0.2em"><b>Block text</b>: <mark class="highlight-yellow_background"><mark class="highlight-red">! как устроен TCP хэдер и UDP</mark></mark></p><ul class="toggle"><li><div><span class="user" style="padding:0.2em"><img src="https://lh3.googleusercontent.com/a/ACg8ocK-IPfw_EDH93gKIn8ziUB1NH-Wgcd3m66uTIyJQY-D=s100" class="icon user-icon"/><span><b>Владислав Рязанов</b> <time style="font-size:0.8em">Nov 19, 2024, 5:34 PM</time></span></span></div><div style="padding:0.2em">!</div><div style="padding:0.3em"></div></li></ul></div><hr/></div></details></span></body></html>

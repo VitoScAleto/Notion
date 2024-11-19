@@ -1,0 +1,786 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Указатели, ссылки (1)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d7269feb-5a7e-4e83-8838-3afecdf14405" class="page sans"><header><h1 class="page-title">Указатели, ссылки (1)</h1><p class="page-description"></p></header><div class="page-body"><p id="81215837-8b4a-436c-b019-89a34e2506f9" class="">Указатели, ссылки</p><p id="46b3e6ad-7c17-498a-9b74-77a80b35b9ed" class="">
+</p><p id="36d5cfd4-72e8-40fb-bacb-c8ec87fea2ef" class=""><code>static_cast</code> в C++ используется для преобразования типов данных. Это более безопасный способ преобразования типов, поскольку он выполняет проверку типа во время компиляции. Если преобразование не возможно, то компилятор выдаст ошибку.</p><p id="83e69f2f-4c19-4341-98fd-ca1ad917e60c" class="">Например, если у вас есть указатель на базовый класс, и вы знаете, что он на самом деле указывает на объект производного класса, вы можете использовать <code>static_cast</code> для преобразования указателя:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b94410e-aaff-4cc7-bc28-3273ddcae816" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">Base* base_ptr = new Derived;
+Derived* derived_ptr = static_cast&lt;Derived*&gt;(base_ptr);
+</code></pre><p id="cddff1a6-58de-4c05-a97c-6d4a66662fd4" class="">В этом примере, <code>base_ptr</code> является указателем на объект типа <code>Derived</code>, но он имеет тип <code>Base*</code>. <code>static_cast</code> используется для преобразования <code>base_ptr</code> в <code>Derived*</code>.</p><p id="08e2d37f-5837-4aae-a0ed-859d216a8fd9" class="">
+</p><p id="e83f052c-8a8a-4801-8db2-2caf9095a80b" class="">В C++, ссылка представляет собой псевдоним для переменной, который можно использовать для доступа к этой переменной. Однако, ссылка не может быть изменена, чтобы указывать на другую переменную после её инициализации. Константная ссылка, с другой стороны, это ссылка, которая указывает на константное значение. Она не может быть использована для изменения значения, на которое она указывает.</p><p id="39c84480-d6a4-419a-9e07-ab5cac63a261" class="">
+</p><p id="f095bce0-3c27-44a7-bcb6-9f87aabdcb9f" class="">Компьютерную память можно представить в виде прямоугольника. При запуске компилятор  выделяет помять род код и глобальные переменные. Выделяется сегмент кода и сегмент данных. Стек- область памяти  для доступа к функциям, которые нужно вызвать.</p><p id="8aba8b01-a9ca-4124-9953-55cf081f4a85" class="">
+</p><p id="6a3d47cc-ef07-49af-9d6e-c8565759f49f" class="">В низу стека храниться все локальные переменные функции и аргументы командной строки. Когда main вызывает функцию создается свой слой по верх этого. Остальная память компьютера называется <em>динамически распределяемой.</em> С++ и C делает эту память доступной. </p><p id="d03e8700-2730-4bd3-962c-c73fcfdf304e" class="">
+</p><p id="082529dc-ad76-4713-9993-9f48f5313541" class="">Область памяти - это адрес часто представленный в 16-ричном виде в 32-разрядном процессоре, адрес будет 32-битным числом. сам по себе указатель содержит только этот адрес. Что бы обратиться к данным, на который этот указатель указывает, надо пройти по этому адресу и <em>интерпретировать</em> содержимое памяти в этой области. Сам по себе участок памяти - это набор битов. Информация о том как интерпретировать содержимое  области памяти предоставляется типом указателя. Память сама по себе не имеет однозначной интерпретации. </p><p id="34de4f36-c23e-4a4c-a0bd-c36cc1d7594c" class=""><mark class="highlight-red">Определение</mark> Указатель это адрес в памяти. Если память линейный массив байт то указатель это просто индекс в этом массиве, указывающий на смещение от начало линейного массива байт. Вершина стека растет в сторону уменьшение адресов </p><p id="8e03a59f-78cf-44ec-b2c1-4a3b36f2dbb8" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="338bf036-de03-442c-b332-75de4f213444" class="code"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+int main()
+{
+    int *pInt = new int;
+    *pInt = 0;
+    cout &lt;&lt; pInt &lt;&lt; endl;
+    int &amp;ref = *pInt;
+    cout &lt;&lt; ref;
+}</code></pre><p id="a2267f17-1298-42cd-8227-5cc50aaac4bb" class="">В коде </p><p id="c11efb2b-4644-4841-8429-6c865fb25d4e" class="">
+</p><p id="adbae7d0-25fe-4e00-acc5-8d1e511f41dd" class="">При объявлении не инициализированной переменной ее значение не определенно.</p><p id="e944e696-c7c7-47cb-8210-ecd45b3a184d" class="">Для того что бы инициализировать переменную надо написать круглые скобки int* pIint = new int(5);</p><p id="2f89115f-7f58-4a38-9fe1-633b915f8e13" class="">
+</p><p id="a0ff9667-37c1-4664-8026-3e6a175929d8" class="">new - c++</p><p id="e540a4fb-746d-431c-a473-9bfb124f0141" class="">malloc - C</p><p id="ac3e462f-ad3c-43fa-b75c-7dd31185363f" class="">VirtualAlloc - WinAPI</p><p id="d91bd895-aa26-4433-bfc3-4905a5666546" class="">ExAlocatePoolWithTag - Kernal, OS</p><p id="f0079c11-2ed7-4c83-aa38-6f9ac6a83044" class="">
+</p><p id="4cb874e3-6620-4533-8b12-6e83bb6dd3c1" class="">
+</p><ol type="1" id="65907eef-e196-4a3a-b488-15aa2a743e98" class="numbered-list" start="1"><li>Для создание объекта используется new. </li></ol><ol type="1" id="cc8cf99e-ca36-4cc3-b314-f2fa75ce5cae" class="numbered-list" start="2"><li>Для обращение к объекту по указателю используется операторы * и →.</li></ol><ol type="1" id="a0e573bf-2a95-40bb-b7da-d0b949842bee" class="numbered-list" start="3"><li>Инициализация объектов созданных в куче выполняется так де как для объектов на стеке</li></ol><p id="9c62fe3b-4d6f-406a-bd14-2ade9a2a7b57" class="">
+</p><p id="3250bd9e-d41c-4780-a3bf-9b1edf13c760" class="">
+</p><p id="f67adcf7-0b33-40f6-85df-5dbf328601a6" class="">
+</p><h2 id="609aed8f-be9a-4271-8ad5-a1ea348a0a60" class="">Указатели</h2><ol type="1" id="8605f49b-a039-47b5-bce7-24479bca3057" class="numbered-list" start="1"><li>на функцию - указатель  на функцию  содержит адрес сегмента кода,по которому располагается исполняемый фаил.</li></ol><ol type="1" id="5b839342-1c69-4e65-a7c5-7ba23b965db8" class="numbered-list" start="2"><li>Объект</li></ol><ol type="1" id="59ac6c5a-7bd2-47cb-8a1e-5b460f0ae6e9" class="numbered-list" start="3"><li>void</li></ol><p id="f84e1ca6-8d7d-4bc9-b1ea-1f3fbdaf5050" class="">
+</p><h2 id="66aa0d1c-8bbf-4e22-bb64-9961ad193fec" class="">Инициализация указателя</h2><ol type="1" id="db6b63f1-c4c1-47ff-b6eb-a4c24cfa0b37" class="numbered-list" start="1"><li>указатель на массив = адрес его начала</li></ol><ol type="1" id="eaa4c7ae-8dd6-4ecc-b329-3d768510d7f9" class="numbered-list" start="2"><li>Присваивание указателю  адреса области памяти в явном виде:</li></ol><p id="a73c435e-af26-48f5-a41d-8b06df0ee947" class="">………..</p><p id="1e9e41d6-3d1b-4e9a-9b74-b576336922f4" class="">
+</p><h2 id="cb36bfd5-595e-4d58-a5e0-63f0e07c1045" class="">Порядок интерпретации описаний</h2><p id="3ae7ab51-8c1b-4b1a-ab7f-f1962ac9c550" class="">int *(<em>*p[10]</em>) ()</p><p id="11beaa04-4dd9-4be9-aa05-1e66c4b01dc4" class="">
+</p><p id="35aae501-15bc-44c0-aa52-b536debf0ed8" class="">
+</p><h2 id="8bc387ab-c757-4dc5-ac39-df6f33ca12b2" class="">операции с указателем</h2><ol type="1" id="20fb9741-cfec-4ac3-9adc-3442bfd18601" class="numbered-list" start="1"><li>разадресация</li></ol><ol type="1" id="fad7580a-f338-4e76-84be-55098c3180ea" class="numbered-list" start="2"><li>присваивание</li></ol><ol type="1" id="5f4034bd-576e-4f3d-b61b-d037c97e443f" class="numbered-list" start="3"><li>сложение с константой</li></ol><ol type="1" id="f7e65fd8-4f95-429e-97ea-6cf02f8b78c0" class="numbered-list" start="4"><li>вычитание</li></ol><ol type="1" id="b49d5d46-af25-44f3-9372-f60d9452b75f" class="numbered-list" start="5"><li>инкремент, декремент</li></ol><ol type="1" id="8e03c686-6ad1-4373-b88e-77bfdb3f9bbb" class="numbered-list" start="6"><li>сравнение</li></ol><ol type="1" id="a18500a3-0c22-43ed-8b98-f0a26e923289" class="numbered-list" start="7"><li>приведение типов?</li></ol><p id="d33f7b41-c68b-4eae-9bcb-818eefee00eb" class=""><div class="indented"><h3 id="52bba432-a564-4a92-a9b7-04a59dfee1f2" class="">Арифметические операции</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ddf5865f-e464-45c3-97d2-c492cbd13918" class="code"><code class="language-C++">    int x = 22;
+    int y = 42;
+    int z = 66;
+
+    cout &lt;&lt; *(&amp;y + 2) &lt;&lt; &quot; &quot; &lt;&lt; *(&amp;y + 1);
+    
+    +1 обозначает сдвиг на один int</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7111ced2-b679-4ad6-9d30-acea8a2093f5" class="code"><code class="language-C++">    int x = 22;
+    int *y = &amp;x;
+    int *z = y + 1;
+
+    cout &lt;&lt; y &lt;&lt; &quot; &quot; &lt;&lt; z;</code></pre><p id="c437e98a-e5b7-4b7c-8b19-8b9ef6da138d" class="">
+</p><p id="4bb81683-98e4-44ad-930b-9f9eb990ce5f" class="">перемещаемся по стеку для того что бы достать значение из функции</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1ee7dbd9-7483-498d-93f5-24921e3af2d7" class="code"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+void f()
+{
+    int x = 22;
+    int y = 44;
+}
+
+int main()
+{
+    int zzz = 111;
+    for (int i = 0; i &lt; 100; i++)
+    {
+        f();
+        int xxx = *(&amp;zzz - i);
+        cout &lt;&lt; xxx &lt;&lt; endl;
+    }
+}</code></pre><p id="b708417f-ff82-467b-a141-8dd26dbd6cf0" class="">
+</p><p id="0bb6d72d-4e86-4122-9b5c-11c1d9a6b3a2" class="">
+</p><p id="bf1a9079-ef05-4c5c-9b60-02e41c24f1a5" class="">пример 4.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="188c11e8-fe18-47e3-9b66-a70d69d27b2c" class="code"><code class="language-C++">int main()
+{
+    int n;
+    cin &gt;&gt; n;
+
+    mt19937_64 random_;
+    uint64_t sum = 0;
+    for (int i = 0; i &lt; n; i++)
+    {
+        uint64_t x = random_();
+        sum += x;
+    }
+
+    cout &lt;&lt; sum;
+}
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0e00b4eb-a1cd-44f4-8f66-64ac59df2e57" class="code"><code class="language-C++">переделаем под динамическую память
+
+    int
+    main()
+{
+    int n;
+    cin &gt;&gt; n;
+
+    mt19937_64 random_;
+    uint64_t sum = 0;
+    for (int i = 0; i &lt; n; i++)
+    {
+        uint64_t x = random_();
+        sum += x;
+    }
+
+    cout &lt;&lt; sum;
+}
+
+после sum нужно очистить x;</code></pre></div></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

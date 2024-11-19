@@ -1,0 +1,724 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>13.09 Алгоритмы и структуры данных</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="225e8d1e-c8ce-4d57-8d1e-90646a6a1320" class="page sans"><header><h1 class="page-title">13.09 Алгоритмы и структуры данных</h1><p class="page-description"></p></header><div class="page-body"><p id="433c1391-51cd-40ff-8055-b0e6caa00f36" class="">Алгоритм - метод решенние определнной задачи, последовательное выполненеие операции над исходными данными с целью получения результата.</p><p id="a570fbac-543b-44f6-a8fa-e20f59795cc7" class="">Алгорит характерезуется 3-мя показателями:<div class="indented"><ul id="4b4fdf4c-47d2-47fe-a0f8-0ee363063bb7" class="bulleted-list"><li style="list-style-type:disc">Конечность </li></ul><ul id="ff64e403-2262-460c-a1f9-bed3e5d18d0b" class="bulleted-list"><li style="list-style-type:disc">Определенность </li></ul><ul id="dad4dfbf-4bde-4ae6-914f-db89c0ea774f" class="bulleted-list"><li style="list-style-type:disc">Эффективность(все шаги просты, время выполнения лежит в определенных границах)</li></ul><p id="55802b4d-2583-4a69-9da4-0281e6f9088f" class="">
+</p></div></p><p id="e036584b-c9b3-46b1-a8f3-0344583a6b17" class=""> </p><h2 id="e32020b6-6267-4f6e-9c5c-d0b9d33ae851" class="">Эмпирический анализ алгоритма(Время):</h2><ul id="4515daa7-ed54-4ade-babe-5b51d6030406" class="bulleted-list"><li style="list-style-type:disc">из-за  разного железа неьзя сравнить одинаково</li></ul><h2 id="d8902533-fd03-425f-af69-20440901883b" class="">Математичесий анализ алгоритма:</h2><ul id="739fa6e0-51ec-413c-b95e-5bfc3c0cf59c" class="bulleted-list"><li style="list-style-type:disc">оценить производительности программы</li></ul><ul id="9491a383-43c9-4b5b-9cdf-91ce5600bc1d" class="bulleted-list"><li style="list-style-type:disc">установить значение параметров алгоритмов</li></ul><ul id="e080ecc4-386d-4fa3-bd65-f7436ce2e93b" class="bulleted-list"><li style="list-style-type:disc">сравнить разные алгоритмы, предназначенные для решение одной задачи</li></ul><p id="cc0fc5d9-8ad2-4c3a-b583-d2dfe01761f7" class="">
+</p><p id="8b0c753c-64a3-4135-ba88-70716f4d1676" class="">При анализе алгоритма используется 3 оценки: O омега тетта<div class="indented"><ol type="1" id="367b2017-7022-469c-8441-8708a9dfbbc1" class="numbered-list" start="1"><li>O большое. Дано T, f: N→R+(есть две функции которые создают отображение натуральных чисел только на положительном участке).<p id="54a754e6-089f-4113-a859-f0e5593790a3" class="">O ограничивает функцию сверху</p></li></ol><figure id="eeace992-493e-4cda-9791-5f14a65f3b1e" class="image"><a href="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5.png"><img style="width:684px" src="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5.png"/></a></figure><p id="03d4adbd-ce5c-4444-8976-36283a31d28b" class=""><div class="indented"><p id="81021def-eec2-41fe-9aec-740f79560f1f" class="">Пример: 1/3n^2 - n = O(n^2)</p><p id="27507556-f99d-4ce7-8274-1f16626fbf9e" class="">
+</p><p id="2f84b3af-2aa6-428e-8caf-352cb7d979ec" class="">
+</p><ol type="1" id="37e31c3e-28c0-412f-84a4-d7406ebba14f" class="numbered-list" start="2"><li></li></ol><figure id="f7c61140-2da5-4b4b-b5a9-b7194a235db1" class="image"><a href="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%201.png"><img style="width:660px" src="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%201.png"/></a></figure></div></p></div></p><p id="2655e41c-6fee-4f1d-b9d0-5846c6ffc6c2" class=""><div class="indented"><p id="36cff511-e5eb-4b08-bfd3-63a23166fb91" class=""><div class="indented"><ol type="1" id="d6619b48-e897-431e-ba09-4b0ad32df08d" class="numbered-list" start="3"><li>Тэта - это Обольшое и омега вмете<figure id="4e6fbe27-d16b-4be4-829c-c27e83fea65b" class="image"><a href="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%202.png"><img style="width:632px" src="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%202.png"/></a></figure></li></ol></div></p></div></p><p id="ecb5235c-a754-40e9-9e31-6d8b443df69e" class="">
+</p><p id="d8f1e702-0aad-46ec-8f19-459ec3fba905" class="">
+</p><p id="b86ec843-b2c3-476f-b50a-7238c894ba5e" class=""><div class="indented"><p id="77693470-78f0-4040-8544-9edf7c144e4e" class="">Взаимосвязь оценок</p><figure id="26141f07-c074-4fc9-9fa4-839713af1e14" class="image"><a href="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%203.png"><img style="width:684px" src="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%203.png"/></a></figure></div></p><p id="27da9620-844f-4327-9c19-1f1988aeb755" class="">
+</p><p id="a7e1d993-08ea-41b3-9e91-91489c50dc1c" class="">
+</p><p id="a748eafd-3b23-4d84-b7a1-64a3e848a57e" class="">
+</p><p id="8686c89f-037c-4517-9105-4c2e76590939" class="">Арефметические операции:<div class="indented"><ol type="1" id="0e4d99f4-3538-4793-a19f-4ed64f4c14e2" class="numbered-list" start="1"><li>Правило сумм O(f(N)) + O(g(N)) = O(max(f(N),g(N)))</li></ol><ol type="1" id="935f46de-750c-4c9c-832d-cd0297a73d35" class="numbered-list" start="2"><li>Правило произведений</li></ol><ol type="1" id="eb1b9639-79c4-4117-8a06-1ea03122f7f8" class="numbered-list" start="3"><li>O(cf(N)) = O(f(N))<p id="de81b58d-7fcc-45a2-afc0-edf078f33744" class="">1.Время выполнения последовательности операторов определяется с помощью правила сумм.<br/>2. Время выполнения оператора присваивания О(1)<br/>3. Время выполнения условных операторов состоит из времени выполнения последовательности условно исполняемых операторов и времени вычисления логического выражения.<br/>4. Время выполнения оператора цикла является суммой времени всех исполняемых итераций цикла и времени вычисления условия прекращения цикла.<br/></p></li></ol></div></p><p id="5a832bd1-edff-4956-8dc7-43bf1d9d6c1f" class="">
+</p><p id="4045fbb9-8e9b-4db6-85a3-8d8182331ad3" class="">Классификация алгоритмов<div class="indented"><p id="ffd15ae0-e52e-4010-8ff0-0179d56162b6" class="">О(1) - постоянное время выплнения алгоритма не зависящее от входных данных</p><p id="b392a75a-5b80-4bcc-96e9-34b6d1c03bba" class="">О(N) - линейное время выполнения</p><p id="cca3d3a6-9175-49de-8c22-e6721604b409" class="">О(logN) - логарифмическое время выполнения алгоритмов. Присущи алгоритмам, которые сводят задачи к меньшим размерностям на каждом шаге. Основаниие лог не влияет на рост.</p><p id="712e59f6-7fd3-4af6-825e-7d805fd23f27" class="">О(n^2) - когда обрабатываются пары элементов</p><p id="adb222ee-cc66-4656-b94f-6f481945a31d" class="">О(NlogN) - присуща, которые сводят задачу к меньшим размерностям, а потом объединяют результат.</p><p id="76ca6e12-ad44-4389-890a-a89eb16eed7a" class="">О(2^N) - </p><p id="a7aa6d66-bbef-4296-b6ab-aeb38d5f6f51" class="">О(n^3) - </p><p id="6c215da0-af11-4e8c-95ae-468df6d59860" class="">
+</p><h2 id="d7578b40-62ef-4cb9-9fb2-f417eade6350" class="">Структуры данных</h2><p id="dcca8ab2-8993-41a4-9c68-e4f5035a6257" class="">Скалярный тип данных - (int, float and etc)</p><p id="454c45df-d6df-43aa-bedb-18775225ea39" class="">Структурированный тип данных - объединение всех типов.</p><p id="2902066f-0ae6-44e1-943c-d93b3031c9bf" class="">
+</p><p id="e553ae85-b7b7-4b60-a57b-12c4a9cf27c9" class="">Абстрактный тип данных - обобщение типов данных, которое характеризуется набором операций, выполняемых с данными(доступ, создание, добавление, удаление и тд)</p><p id="6f6f5dc8-ffc1-48a2-9104-74dbf542f3a5" class="">Концепция абстрактного типа данных позволяет выделять выделять фундаментальные структуры(массив, структура, файл). Более сложные структуры могут быть динамическими(деревья, списки, очередь и тд).</p><p id="d56c8771-b658-4902-b568-1286b128c682" class="">
+</p><p id="5187b4cf-ee0f-446f-812f-1fc4f4fc54e5" class="">Инкапсуляция - это процесс отделения друг от дурга элементов ообъекта, определяющих его устройство и поведение; инкапсуляция служит для того, чтобы изолировать контрактные обязательства абстракции от из реализации. </p><p id="f039c8cc-6dbf-4e44-aa78-e1d6af4fe4ab" class="">Интерфейс - отражает внешнее поведение абстракции, специфируя поведение всех объектов данного класса.</p><p id="add6eab7-f786-467a-89cb-768ad7303714" class="">Внтуренняя реализация - описывает представление абстракции и механизмы достижения желаемого поведения объекта.</p><p id="27945309-5d47-42e8-81a5-98f3854f7583" class="">
+</p><p id="6b4da0fd-4558-41b3-9600-d58f92c5d124" class=""> </p><figure id="8e64c02c-a7f6-4cd3-95ff-561cb1844d92" class="image"><a href="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%204.png"><img style="width:684px" src="13%2009%20%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B%20%D0%B8%20%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%20225e8d1ec8ce4d578d1e90646a6a1320/%25D0%25B8%25D0%25B7%25D0%25BE%25D0%25B1%25D1%2580%25D0%25B0%25D0%25B6%25D0%25B5%25D0%25BD%25D0%25B8%25D0%25B5%204.png"/></a></figure><p id="b7ab7e3b-c926-4a53-a9de-7dcaaeaa3e53" class="">Математичесий анализ алгоритма</p><p id="52a07a19-e894-4f4b-aa7a-aa2d8e8600f6" class="">
+</p><p id="8ac4ca42-dc3a-4191-afcc-a899e2a74460" class="">Для представления абстрактного типа данных используются:</p><p id="706b90a8-c8f2-4a7b-a889-8fe5041e2c34" class=""> стуктуры хранения данных, </p><p id="04ec109d-c5ed-4346-bc24-a7d11ad03bc1" class="">способы её формирования </p><p id="9b21b8d0-f3c0-4114-9239-e9c571f02692" class="">способы доступа к данным.</p><p id="b1bf253e-2a3c-4c59-b610-c11d14df80cf" class="">
+</p><p id="def64766-ff6c-439b-a36f-34656048db1a" class="">Стуктура хранения данных должна обеспечить эффективное выполнения операции.</p><p id="a0425094-6e1f-4d45-bccb-fbde05496ac4" class="">
+</p><p id="9aeb24a5-5143-4feb-8cb5-ddacbfde9e9b" class="">
+</p><p id="bbcaa405-05eb-4e00-a501-430160e59e21" class="">Линейный список.<div class="indented"><p id="56f1f2b1-d336-4b33-a7f0-a5a50c27708f" class="">Линейный список - последоватльность аргументов a1….an</p></div></p><p id="f64442c8-4002-4ad2-99f4-fde304d5c21d" class="">
+</p><p id="8f928654-e945-4278-9a7c-7bf33564c23d" class="">Для формирования АТД нужно задать множество операции, которые зависят от АТД</p><p id="0f61f9c7-04ae-4953-ae68-9730f9fc3045" class="">
+</p><p id="d7274b3b-7ece-407a-8e99-7d86d9bc8dc8" class="">Линейный список посрелством массива.Последоватльное распределение памяти.</p><p id="13724683-9761-4b25-bf40-f4793ae1a185" class="">Связной список.Связное распредеение памяти, при котором к элементам осуществляется последовательный доступ</p><p id="04875bbd-f0aa-4d83-bf0a-40554b13680c" class="">
+</p><p id="a5dffe0a-3c7f-4f73-a0db-d80ec3b41cce" class="">Связный список. Соглашения при организации</p><ol type="1" id="c6b0301e-0220-4cd6-95be-def3dc86bee1" class="numbered-list" start="1"><li>Последний узел списка содержит нулевой указатель</li></ol><ol type="1" id="d92a0abc-cd98-411c-9660-db759b756822" class="numbered-list" start="2"><li>Последний узел списка содержит указатель на первый узел, что делает список циклическим.</li></ol><ol type="1" id="c269e18c-e6e4-4c74-b0b1-fafec7d93f9e" class="numbered-list" start="3"><li>Последний узел списка содержит указатель на фиктивный узел (хвост списка).</li></ol><ol type="1" id="d5f35c15-7796-4df8-a6d2-b31b08967bca" class="numbered-list" start="4"><li>Указатель на список содержит фиктивный ведущий элемент (голова списка).</li></ol><p id="a645ece4-1317-493e-9842-3539ddf96560" class="">В зависимости от выбранной модели будет различаться реализация как инициализации списка, так и других операций.</p><p id="2f4573ba-d69b-4b6a-b20e-3594ea17d264" class="">Пример 1. Реализация фиктивных узлов оптимизирует задачу вставки и удаления единственного элемента списка.</p><p id="acb5ebb1-77e2-41be-a1bd-361ada8bd308" class="">Пример 2. Циклический список для прикладных приложений.</p><p id="51681035-8267-421b-b279-994f4b165a48" class="">
+</p><p id="bfc4b412-fd18-40f0-9232-cab3651c64eb" class="">
+</p><p id="5c6493bc-4b36-4678-b11f-b8f6653a8af5" class="">
+</p><p id="06de2c61-3522-43ad-9ebe-2560a033cccd" class="">
+</p><p id="8fa41edd-0ae8-48ce-9c56-8cdfbdffface" class="">
+</p><p id="d6d1dfb3-03dc-45c4-938d-606ee63dc9b4" class="">
+</p><p id="8ea1dc09-bada-4c71-b34f-a95f1061875d" class="">
+</p><p id="3c0e0a46-3687-427d-9ec5-21f6ba99289b" class="">
+</p><p id="4ac11b05-945c-4438-b6df-8e15d495761a" class="">
+</p><p id="4cb346b8-9eec-413a-bde3-6e6a3475185f" class="">
+</p><p id="d1365b67-8dcf-46e3-8c12-2424e0c3df10" class="">
+</p><p id="9b5a0ced-8c36-4c39-a966-0ed375a901bf" class="">
+</p><p id="898bb818-1e5b-4c7d-a511-aec9eb2d2c9d" class="">
+</p><p id="143c4489-8c65-4bbd-b8d0-474b84bfd206" class="">
+</p><p id="b553b040-147b-47f2-90fb-957838e8a5be" class="">
+</p><p id="8003cc39-bfd2-440a-a6d1-6db7cd85239a" class="">
+</p><p id="322d9b19-c8b0-4d67-8d62-f7f2590282c5" class="">
+</p><p id="996c2768-36ce-4cc6-a982-bbe6d586472f" class="">
+</p><p id="4a4b80c5-905f-456b-b418-31e64c02eba2" class="">
+</p></div></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,714 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Ассемблер Основы  (1)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="d94d3b47-fb9a-4bd9-b498-7f5838681dbb" class="page sans"><header><h1 class="page-title"><em><strong>Ассемблер Основы </strong></em> (1)</h1><p class="page-description"></p></header><div class="page-body"><p id="f8a499f6-691f-4f3a-87ae-82218bb0d7a2" class="">
+</p><p id="72697f91-d889-499c-b52c-6e52b7c1b702" class="">Ассемблер GAS (GNU Assembler) - это ассемблер, созданный в рамках проекта GNU. </p><p id="df3dba62-34e4-493d-b779-69d2ad7d06fd" class="">При компиляции g++ используется ассемблер GAS (GNU Assembler).</p><p id="db8f46c2-1e65-469c-b5fd-4d73bb6387cd" class="">
+</p><blockquote id="b81df394-4b39-4af2-873b-3e9f7491bb01" class="">Из недостатков можно отметить, что GAS использует синтаксис, отличный от синтаксиса Intel (а именно <mark class="highlight-red">синтаксис AT&amp;T</mark>), что может немного усложнить перенос программ с одного ассемблера на другой. Хотя последние версии GCC включают параметр «-masm», который при значении &quot;-masm=intel&quot; позволяет встраивать код ассемблера с использованием синтаксиса Intel. Эквивалентным параметром для GAS является &quot;-msyntax=intel&quot; или использование директивы &quot;.intel_syntax&quot;</blockquote><p id="42d76d65-41e0-48bc-870f-db48167b5b50" class="">
+</p><p id="0c895368-1623-4adb-82f1-1aa3dd0ed53d" class="">
+</p><p id="c956d9fc-0a03-456b-968a-ac1f49514caa" class=""><div class="indented"><p id="afa8e8d8-faf5-4f3e-b20a-8669d2af99b1" class="">Глава 1. Введение<div class="indented"><p id="87c9812a-76cc-4aa3-a664-0e8f321d2f2f" class="">
+</p><p id="67bfed7d-eb42-4ed8-9708-cf4a3ebf469d" class="">Для описания состояния сигнала информатике используется термина бит. По сути бит является наименьшей единицей информации в компьютере. Бит может иметь значение 1 (есть сигнал, что обычно соответствует напряжению от 2 до 5 V) или 0 (сигнал отсутствует или слабый - обычно от 0 до 2 V).</p><p id="12bda43c-bfb3-4eb9-92b8-28767ba20eed" class="">8 битов составляют байт. Фактически байт — это наименьшая единица информации, которую можно прочитать или записать в память большинством современных процессоров.</p><p id="78e6c72a-29be-4338-af32-93e6915a407b" class="">
+</p><p id="a2c60518-ac0c-45e8-96f0-05c2a419ba6f" class="">Основу программы на ассемблере составляют инструкции - некоторые действия, например, сложение двух значений, помещение в регистр значения и т.д. Каждой инструкции сопоставляется определенный машинный двоичный код, который также называется кодом инструкции или кодом операции <mark class="highlight-teal">(опкод, opcode)</mark>.</p><p id="96baa872-4522-4a94-888b-09c0ac608fac" class="">Написание машинного кода вручную возможно, но излишне громоздко. На практике вместо опкодов применяются так называемые мнемоники - человекочитаемые названия инструкций.</p><p id="0326166e-6293-4cd6-ad8c-97a53b3518b8" class="">
+</p><p id="e6f1218f-b24c-4e2d-8a53-e4e55f2b3d4a" class="">Основные опкоды (инструкции) в ассемблере включают:</p><ul id="28e5aa44-77c5-4761-aa8b-13318097d1b4" class="bulleted-list"><li style="list-style-type:disc">MOV: Копирование данных из одного места в другое</li></ul><ul id="196e3248-1f30-4dc7-bc2e-b41248b21c02" class="bulleted-list"><li style="list-style-type:disc">ADD: Сложение двух чисел</li></ul><ul id="424992ae-0786-4382-be5f-9b944ad49ba9" class="bulleted-list"><li style="list-style-type:disc">SUB: Вычитание одного числа из другого</li></ul><ul id="589ff9b6-6e33-4634-b1f8-734e9660f2d6" class="bulleted-list"><li style="list-style-type:disc">MUL: Умножение двух чисел</li></ul><ul id="91814c44-daba-4b6c-8212-7775434f203f" class="bulleted-list"><li style="list-style-type:disc">DIV: Деление одного числа на другое</li></ul><ul id="6ff7bed0-9e83-4ee7-816a-bbc0c4c88904" class="bulleted-list"><li style="list-style-type:disc">JMP: Безусловный переход к другой инструкции</li></ul><ul id="b4fe882f-5335-4c28-86d6-e824b6b37bb6" class="bulleted-list"><li style="list-style-type:disc">JZ, JNZ, JE, JNE, JL, JLE, JG, JGE: Условные переходы</li></ul><ul id="042a8f50-a1f7-4816-8628-21515b4cc7b7" class="bulleted-list"><li style="list-style-type:disc">PUSH: Добавление элемента в стек</li></ul><ul id="68955d8d-4b53-4f56-8301-c2f5ccdab4d9" class="bulleted-list"><li style="list-style-type:disc">POP: Удаление элемента из стека</li></ul><ul id="35a76954-602a-449f-853b-36361aabecb1" class="bulleted-list"><li style="list-style-type:disc">CALL: Вызов подпрограммы</li></ul><ul id="8945d34f-6f68-4aed-8be7-7a6b7b309bc1" class="bulleted-list"><li style="list-style-type:disc">RET: Возврат из подпрограммы</li></ul><p id="3d39f8f4-dd19-4097-be8c-d5d565b37a88" class="">
+</p><p id="a72022cd-4ea1-4bb0-9c91-bfb7a8c3e10c" class=""><mark class="highlight-red">!</mark>  Программа состоит из набора подобных инструкций. Процессор запускает <br/>программы через цикл выборки-выполнения (fetch-execute cycle). Компьютер<br/> считывает по одной инструкции за раз. <br/>Для этого процессор обращается к специальному регистру - указателю <br/>команд (или регистр IP), который также называется программным счетчиком <br/>(или PC) и который хранит адрес инструкции для выполнения. <br/>По сути, компьютер выполняет бесконечный цикл следующих операций:<br/></p><ol type="1" id="368f0fd7-5237-4195-ae6d-187d5b08274c" class="numbered-list" start="1"><li>Считывает инструкцию с адреса памяти, указанного указателем инструкции - регистром IP/PC</li></ol><ol type="1" id="bb4b8d9c-79d3-4567-bb22-4a6212c63320" class="numbered-list" start="2"><li>Декодирует инструкцию (т. е. выясняет, что означает инструкция)</li></ol><ol type="1" id="6c8de310-7cb9-45b7-b511-d8d1ca8b7f96" class="numbered-list" start="3"><li>Перемещает указатель инструкций (регистр IP/PC) к следующей инструкции</li></ol><ol type="1" id="ff36fad3-7ff9-472d-b589-ca64dc669aa3" class="numbered-list" start="4"><li>Выполняет указанную инструкцию</li></ol></div></p><p id="5ac34550-378a-4806-b821-f6f0c1e501ee" class=""><div class="indented"><p id="e360328f-7b3c-42b1-96cd-ad8ab6f2c2c0" class="">! Особенность апкода  в GAS:<div class="indented"><blockquote id="8d683f5e-5e6e-496b-bbff-5a2c03edd783" class="">многие инструкции имеют вариации для работы с различными типами данных. Все эти вариации инструкций образуются по одной схеме: к названию инструкции прибавляется суффикс, который указывает на тип данных.</blockquote><p id="988a1c15-cfe4-4a55-a5f2-423e13cec621" class="">
+</p><ul id="8d4c3309-50c1-425d-8349-fda5d1518d4c" class="bulleted-list"><li style="list-style-type:disc">q: для 64-разрядных чисел</li></ul><ul id="1810f30e-82b8-4d67-a0b4-0d8812d025c0" class="bulleted-list"><li style="list-style-type:disc">l: для 32-разрядных чисел</li></ul><ul id="21d5763f-0643-46f3-be87-c9bf63e57676" class="bulleted-list"><li style="list-style-type:disc">w: для 16-разрядных чисел</li></ul><ul id="b101d824-9927-4ecb-ba0d-6975228567d6" class="bulleted-list"><li style="list-style-type:disc">b: для 8-разрядных чисел</li></ul><p id="ad8c9a3c-f541-482a-98ee-ea0a3694639f" class="">
+</p></div></p><p id="10652748-9dba-4439-94b9-2ad0d85160b1" class="">В конце апкода дописывается суффикс. был move → movq для копирования 64-разрядных числе и т.д</p><p id="34e65d9b-a62b-4f47-a753-26cdedafdf95" class="">
+</p><p id="001bc76d-435f-4558-9efd-fc934b058df5" class="">
+</p><p id="90146636-ec71-4250-90dc-2ce1f4f60c48" class="">В ассемблере есть несколько основных типов индексов:</p><ol type="1" id="feba59ba-b244-41b1-a9e7-6c13268f74d3" class="numbered-list" start="1"><li>Прямой или абсолютный индекс: Этот тип индексации используется, когда адрес операнда указывается непосредственно в инструкции. Пример: MOV AX, [1234H].</li></ol><ol type="1" id="66971e86-ce8a-40a6-8052-2795a3482879" class="numbered-list" start="2"><li>Индексированный адрес: В этом типе индексации адрес операнда вычисляется путем добавления смещения к содержимому регистра индекса. Пример: MOV AX, [BX+SI].</li></ol><ol type="1" id="9dcf1706-3c12-4aee-8bed-ff36f233c251" class="numbered-list" start="3"><li>Относительный индекс: Этот тип индексации используется, когда адрес операнда вычисляется путем добавления смещения к счетчику команд (PC). Это обычно используется в командах перехода.</li></ol><ol type="1" id="586b6e4f-f2c3-427a-8daf-61628138a2e0" class="numbered-list" start="4"><li>Базовый индекс с относительным смещением: Этот тип индексации используется, когда адрес операнда вычисляется путем добавления смещения к содержимому регистра базы. Пример: MOV AX, [BP+8].</li></ol><ol type="1" id="8f2e8227-8e97-4901-90e6-a655a34605d3" class="numbered-list" start="5"><li>Базовый индекс с индексированным смещением: Этот тип индексации используется, когда адрес операнда вычисляется путем добавления содержимого регистра индекса и смещения к содержимому регистра базы. Пример: MOV AX, [BP+SI+8].</li></ol><p id="ee03b5a7-e557-4b81-96e1-8a5224780367" class="">
+</p><p id="364b4a12-856d-4f72-a5b0-6ad14ab6579e" class="">
+</p><p id="91271430-8108-4a96-838e-f4117350aec5" class="">В ассемблере используются различные типы регистров, каждый из которых предназначен для выполнения конкретных функций. Существуют следующие категории регистров:</p><ol type="1" id="e170079e-73ac-4f10-b0bd-13750002e6f4" class="numbered-list" start="1"><li><strong>Основные регистры</strong>: Это регистры общего назначения, которые используются для выполнения арифметических и логических операций. Основными регистрами являются AX, BX, CX и DX.</li></ol><ol type="1" id="093e3106-dd00-443f-8f1c-a93ec852a4ce" class="numbered-list" start="2"><li><strong>Регистры сегментов</strong>: Эти регистры используются для хранения сегментов кода, данных и стека. Основные регистры сегментов включают CS (регистр сегмента кода), DS (регистр сегмента данных), SS (регистр сегмента стека) и ES (регистр дополнительного сегмента).</li></ol><ol type="1" id="0fd916af-eb2c-4941-81fd-b218a72c8955" class="numbered-list" start="3"><li><strong>Регистры индекса</strong>: Эти регистры обычно используются для хранения смещений внутри сегментов. Они включают в себя SI (регистр исходного индекса) и DI (регистр индекса назначения).</li></ol><ol type="1" id="dbc472d0-6772-47be-81bc-17c6d6f216a7" class="numbered-list" start="4"><li><strong>Указательный регистр</strong>: Это регистры, используемые для хранения указателей на место в памяти. Они включают в себя SP (указатель стека) и BP (базовый указатель).</li></ol><ol type="1" id="aa8708c8-71f8-4fcb-8e99-a0ea922e968c" class="numbered-list" start="5"><li><strong>Регистр счетчика команд</strong>: Этот регистр, обычно обозначаемый как IP (указатель инструкций), содержит адрес следующей инструкции, которую следует выполнить процессором.</li></ol><ol type="1" id="50675fa2-f850-4513-a8b2-1d4954ebd685" class="numbered-list" start="6"><li><strong>Регистр флагов</strong>: Регистр флагов используется для хранения состояния процессора. Он содержит флаги, которые указывают на результат последней выполненной операции.</li></ol><p id="1600f696-e009-479c-8e29-873bbaed6561" class="">
+</p><p id="a6fe77b1-461a-49c5-8080-9046495c557a" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fc26ea1f-628b-4e60-83bc-c8c51d0a8fd9" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">extern &quot;C&quot; {
+    void func();
+}
+
+int main() {
+    func();
+    return 0;
+}
+
+asm(R&quot;(
+.func:
+    mov eax, 0
+    ret
+)&quot;);
+</code></pre></div></p></div></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

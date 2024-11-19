@@ -1,0 +1,861 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Итераторы (1)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b40e9f19-c043-4c6f-b5d6-118b42d6d9ee" class="page sans"><header><h1 class="page-title">Итераторы (1)</h1><p class="page-description"></p></header><div class="page-body"><p id="a5ac50cd-769f-4041-8fbf-0bf94aed0b26" class="">
+</p><p id="65f2f954-7cda-4161-ba97-fa112a6337f3" class="">
+</p><p id="2c46fc18-55ff-4c44-8c20-00e44d3b12b9" class="">Полуинтервалы в программировании — это концепция, используемая для определения диапазона значений, который включает один из своих конечных элементов и исключает другой. Это часто используется для определения диапазона индексов в массивах и других структурах данных. Например, в Python, если у нас есть список <code>a</code>, и мы хотим взять подсписок, начиная с индекса <code>i</code> и заканчивая индексом <code>j</code>, мы можем написать <code>a[i:j]</code>. Это включит элемент <code>a[i]</code>, но исключит элемент <code>a[j]</code>. Таким образом, это определяет полуинтервал <code>[i, j)</code>.</p><p id="25f4d81b-52b6-4219-90ec-33a2cff57a4f" class="">
+</p><p id="4ba26842-30dd-4ad0-abfe-d65b013402a0" class="">Итератор в программировании - это объект, который позволяет программистам перебирать элементы коллекции. Итераторы обычно определяют два основных метода: один для получения текущего элемента (часто называемый next) и один для перехода к следующему элементу. Они обеспечивают универсальный способ доступа к элементам коллекции, независимо от ее конкретной реализации.</p><p id="efccfaf4-36ec-45d7-83a7-ba985ee15fbf" class="">
+</p><p id="54ed7eb6-032f-497f-b07b-659034d8b9c7" class="">Итераторы и указатели оба являются инструментами, используемыми в программировании для доступа и манипулирования элементами коллекции или массива. Однако между ними есть несколько ключевых различий. Указатель - это переменная, которая хранит адрес другой переменной. Указатели обычно используются в низкоуровневом программировании. Они могут быть использованы для доступа к памяти, манипулирования структурами и массивами данных.</p><p id="8c344a65-c1e9-4baf-9257-9c84f7060198" class="">С другой стороны, итератор представляет собой более высокоуровневый паттерн, который предоставляет универсальный интерфейс для перебора элементов коллекции, независимо от ее конкретной реализации. Итераторы обычно предоставляют методы для доступа к текущему элементу и перехода к следующему элементу. Они обеспечивают более безопасную и удобную альтернативу использованию непосредственных указателей для доступа к элементам коллекции.</p><p id="de5ef635-28ff-4f51-80c2-4bbc1b99d549" class="">
+</p><p id="6eb8970f-21ad-40c5-9724-3b0577508ab7" class="">1.Итератор выступает как способ задать позицию в контейнере.</p><p id="b3c71297-10cf-4c22-be23-3c7e69b000d6" class="">2.Границы интервалов [ begin; end )</p><p id="3d0ddb4f-52ee-465c-97a2-28fbc5714028" class="">3.Итераторы используются в алгоритмах которые как правило принимают пару итераторов </p><p id="e2be9056-0863-4552-b6e4-fbfe57dc1d28" class="">4.Основные действия: Арифметика(++ (next(it) ) —), Сравнения, *</p><p id="245e2f38-06e8-4553-94e0-1949b11816c8" class="">5.Итераторы отличаются от ссылок (так как могут указывать не туда(), а ссылка привязана к определенному элементу; итератор можно двигать а ссылку нет)</p><p id="8852b51c-e50e-462c-bbad-8c533b67c592" class="">6.Итераторы предоставляют универсальный способ работы с контейнером</p><p id="387e274d-88e2-4f85-aaa7-c86abab8c175" class="">
+</p><p id="79bbf8d7-55be-48ed-871b-a07bb4670ea7" class="">
+</p><p id="8a305d87-d7ca-453b-82e5-8aeac6b023df" class="">Вставка</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a7105ead-03fe-45c3-aacb-323c607526df" class="code"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+void DisplayVector(T it_begin, T it_end)
+{
+    for (auto it = it_begin; it != it_end; it++)
+    {
+        cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+    }
+}
+
+int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;};
+    vegtbls.push_back(&quot;tomato&quot;);
+    vegtbls.resize(5);
+    vegtbls[4] = &quot;baclajan&quot;;
+
+    vector&lt;string&gt;::iterator it = vegtbls.begin();
+    vegtbls.insert(it, &quot;luk&quot;);
+
+    DisplayVector(vegtbls.begin(), vegtbls.end());
+
+    return 0;
+}</code></pre><p id="a89f0c3c-d4c9-4254-bc62-59c78fd3254b" class=""><mark class="highlight-teal">! посмотреть документацию insert</mark></p><p id="b8ae64e6-befb-49cc-8c0d-1422232bc8bc" class=""><mark class="highlight-red">! У каждого алгоритма есть своя документация </mark></p><p id="5d34d8c3-cb67-44ab-859c-600083ff8c02" class="">
+</p><p id="84107702-fcc0-4a8a-9358-93a12eaa6d9c" class="">
+</p><p id="de7a3fb7-c6e5-471b-acae-5e0071b3241a" class="">Удаление</p><p id="0303a53a-10a8-4a3a-af35-74f7d37f1f5b" class="">
+</p><p id="54cf1050-017e-4c13-9079-040207a48931" class="">remove_if перекидывает элементы которые пободают под условия в конец контейнера. и возвращает итератор на новый желаемы конец вектора</p><p id="94850e43-9612-4a25-85a2-49dd9328788b" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34e636f5-a5b8-4f46-83ba-99a4cf71147d" class="code"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+void DisplayVector(T it_begin, T it_end)
+{
+    for (auto it = it_begin; it != it_end; it++)
+    {
+        cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+    }
+}
+
+int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kkkkk&quot;};
+
+    auto it = remove_if(vegtbls.begin(), vegtbls.end(), [](const string &amp;s)
+                        { return s[0] == &#x27;k&#x27;; });
+
+    vegtbls.erase(it, vegtbls.end());
+
+    DisplayVector(vegtbls.begin(), vegtbls.end());
+
+    return 0;
+}</code></pre><p id="ee92a3fa-b55f-4b09-8b38-f284bd9a3956" class="">
+</p><p id="ed173a3d-6f79-4256-b764-32b57c8f0c7d" class=""><mark class="highlight-red">!итератор не позволяет менять размер вектора</mark></p><p id="67e30ba0-b27b-4cdc-a3d1-6527bc22ba53" class="">
+</p><p id="a895bea7-656b-4ecc-b6ce-93a7823002a8" class="">удалить дубликаты </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ba56007e-8844-4109-837a-25444e9b654e" class="code"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+void DisplayVector(T it_begin, T it_end)
+{
+    for (auto it = it_begin; it != it_end; it++)
+    {
+        cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+    }
+}
+
+int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kkkkk&quot;, &quot;kkkkk&quot;};
+
+    auto it = unique(vegtbls.begin(), vegtbls.end());
+
+    vegtbls.erase(it, vegtbls.end());
+
+    DisplayVector(vegtbls.begin(), vegtbls.end());
+
+    return 0;
+}</code></pre><p id="dfdbabe1-082e-4788-a5d4-c6a1459243f6" class="">
+</p><p id="6fc73c5d-b075-4584-9b93-5f782f50ceda" class="">
+</p><p id="bbdc136e-f3f4-451d-8525-a9315cc12036" class="">Min/ Max</p><p id="55de884d-6999-4d5a-a21d-d40441383123" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bf724050-d19a-4733-b3c2-98e285930661" class="code"><code class="language-C++">int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kkkkk&quot;, &quot;kkkkk&quot;};
+
+    auto it = min_element(vegtbls.begin(), vegtbls.end());
+    cout &lt;&lt; *it;
+
+    return 0;
+}
+
+</code></pre><p id="70e2f21f-239f-4d95-abcf-41f28bc903b3" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="74fe2659-d849-4784-995e-7a05599a0bac" class="code"><code class="language-C++">
+int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kkkkk&quot;, &quot;kkkkk&quot;};
+
+    auto it = minmax_element(vegtbls.begin(), vegtbls.end());
+    cout &lt;&lt; *it.first &lt;&lt; &quot; &quot; &lt;&lt; *it.second;
+
+    return 0;
+}</code></pre><p id="198638b0-035d-4b5d-9bd7-f4de2c3e5000" class="">
+</p><p id="5c52c05c-aff6-4b15-8734-2b79cda0e1a9" class="">
+</p><p id="c6569fa6-1d90-4274-9072-8584842e1d98" class="">все ли слова начинаются с 1 буквы</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e1c58045-4ce3-4ab0-b9d4-c0fa239f0fdd" class="code"><code class="language-C++">int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kkkkk&quot;, &quot;kkkkk&quot;};
+
+    cout &lt;&lt; all_of(vegtbls.begin(), vegtbls.end(), [](const string &amp;s)
+                   { return s[0] == &#x27;k&#x27;; });
+
+    return 0;
+}</code></pre><p id="eec02edc-b8aa-4c6a-84d3-c6c5dd38a67b" class="">
+</p><p id="df8d0510-9f12-4706-afd5-d736f0c75a8d" class="">
+</p><p id="9c9d27a2-4f16-42b3-a561-f621c7cdd014" class="">Алгоритмы поиска<div class="indented"><p id="75d0b554-ad5e-40b2-88ab-e2130e3c654a" class="">Поиск и подсчет элементов<div class="indented"><p id="99d91f4b-869e-4ad9-8256-2e9ae84c8a85" class="">-count</p><p id="0755f54e-415f-4e97-ae12-19e465042d3c" class="">-count_if</p><p id="13f6366a-be1e-4118-8df1-57a197b92ea7" class="">-find</p><p id="2935a0f4-43dd-4342-9927-76d19a2ab405" class="">-find_if</p></div></p><p id="d383142d-6ae7-4619-a321-cdb6565caf07" class="">
+</p><p id="9e49ce57-f4b6-47aa-b3fe-450adc96a475" class="">У множеств это встроенная функция можно писать через .</p></div></p><p id="06853e68-a778-4c62-8b91-15dd249c128c" class=""><div class="indented"><p id="9d1455e4-9289-4ed7-80e7-d8a32633b772" class="">Поиск в упорядоченном множестве</p><p id="1218f49f-c89d-4e8e-b98f-4787bb55b6eb" class="">-binary_search(it1,it2, element)</p><p id="f9a05e42-cfca-45e3-b35b-999a8d022017" class="">-lower_bound(it1,it2,element) (первый элемент больший или равный  element )</p><ul id="7b65f966-b6b0-4f7a-84d9-788db6ea6031" class="bulleted-list"><li style="list-style-type:disc">upper_bound(it1,it2,element) (первый элемент больший element)</li></ul><p id="0ac0b06b-2568-4241-93c5-f9ec1befd767" class="">
+</p><p id="372dfb89-96fe-4bf1-b025-d8a3b0c10e92" class="">Диапазоны </p><ul id="a43fbd5d-6fca-46a8-a1ed-e14ed7b04f55" class="bulleted-list"><li style="list-style-type:disc">equal_range(it1,it2,element)(диапазон из пары элементов lower &amp;&amp; upper)</li></ul><ul id="06b7d2c0-d7e2-43d9-bf66-1ab8f18b8342" class="bulleted-list"><li style="list-style-type:disc"></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="95cd7f02-9e1e-4dac-bfa4-12592883eae2" class="code"><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+void DisplayVector(T it_begin, T it_end)
+{
+    for (auto it = it_begin; it != it_end; it++)
+    {
+        cout &lt;&lt; *it &lt;&lt; &quot; &quot;;
+    }
+}
+
+int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kot&quot;};
+
+    auto it = partition(vegtbls.begin(), vegtbls.end(), [](const string &amp;s)
+                        { return s[0] == &#x27;k&#x27;; });
+    DisplayVector(vegtbls.begin(), it);
+    return 0;
+}</code></pre><p id="5e8664a9-751f-4fd3-8b51-e342c9768725" class="">Алгоритмы сортировки </p><ul id="6667913a-5c03-467d-8dbb-b22c55181485" class="bulleted-list"><li style="list-style-type:disc">is_sorted</li></ul><ul id="95b7506b-8e42-4794-9160-6e85f8ea2429" class="bulleted-list"><li style="list-style-type:disc">is_sorted_until</li></ul><ul id="687453ca-5f82-4fa3-9137-78bb6ed4c0f3" class="bulleted-list"><li style="list-style-type:disc">sort</li></ul><ul id="ff4d4df6-849d-48f0-a07c-368d7b949f91" class="bulleted-list"><li style="list-style-type:disc">partial_sort</li></ul><ul id="0436df8a-a65f-4164-8a55-99e8d6c5e522" class="bulleted-list"><li style="list-style-type:disc">partial_sort_copy</li></ul><ul id="0689b645-9b41-48e0-9a72-9eb197df00f0" class="bulleted-list"><li style="list-style-type:disc">stable_sort</li></ul><ul id="4f09211f-4915-43c1-8752-ca5079047324" class="bulleted-list"><li style="list-style-type:disc">nth_element(greater&lt;&gt;{} - позволяет делать сортировку по возрастанию или убыванию)</li></ul><p id="8ff50cfa-0cc5-40b5-aa7a-c09e36f00307" class="">
+</p><p id="c15e5673-2569-4c8b-88d2-3475a93e7a92" class="">
+</p><p id="e286e0a1-f3b3-4e8b-90ec-0351afd5d8b5" class="">Обратные итераторы</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4e3ad084-d379-4657-89df-f8a4b185d040" class="code"><code class="language-C++">int main()
+{
+
+    vector&lt;string&gt; vegtbls = {&quot;cucumber&quot;, &quot;potato&quot;, &quot;cucumber&quot;, &quot;kot&quot;};
+    sort(vegtbls.rbegin(), vegtbls.rend());
+    DisplayVector(vegtbls.begin(),vegtbls.end());
+    return 0;
+}</code></pre><p id="1d80059c-88dd-4b74-92cf-cad7b45cfc8a" class="">
+</p><p id="2b18085d-0045-467a-a99f-0a66db51cd0d" class="">Копирование диапазонов</p><p id="21768812-e84c-4259-bc9c-9fdcf23746c3" class="">
+</p><p id="b3d9c3d8-7737-4d03-9eb7-b3bf04b4d4ac" class="">
+</p><p id="97d7d003-abe0-47bb-ba84-aeedf52e8429" class="">Итоги:</p><p id="39b7690a-523d-4ac8-b2a0-5ab6aed0fb68" class="">По документации итераторы находятся в библиотеке &lt;iterator&gt;.</p><p id="e216c652-1faf-4821-be77-484ab6ee9344" class="">4 категории итераторов:</p><ol type="1" id="5774a0e6-4f75-4300-a848-6fca6aebd1c7" class="numbered-list" start="1"><li>input итераторы(из которых можно читать)</li></ol><ol type="1" id="c7c6fddc-af30-400b-9745-a038d03b7dd9" class="numbered-list" start="2"><li>output итераторы (в которые можно записывать)</li></ol><ol type="1" id="12a99a58-e340-4161-bc34-173c532c08b7" class="numbered-list" start="3"><li>forward(обычные итераторы с которых можно читать)</li></ol><ol type="1" id="27f18c9d-7ab8-49b5-9035-4082413f7c52" class="numbered-list" start="4"><li>random (к которым применима арифметика)</li></ol><p id="7905b7a7-9f9c-4ddd-812f-a9c579a863b6" class="">
+</p><p id="61219df6-a2dc-4733-817c-d7a6332b2fa0" class="">Input итераторы - это тип итераторов, из которых можно только читать. Они используются для однократного прохождения по коллекции в одном направлении.</p><p id="baef3745-ad6d-4b51-9637-b34eca18df7f" class="">Forward итераторы, с другой стороны, предоставляют более больший функционал. Они также позволяют читать данные, но в отличие от input итераторов, forward итераторы могут использоваться для многократного прохождения по коллекции. Это означает, что вы можете проходить по коллекции с использованием forward итератора столько раз, сколько вам нужно, в то время как с input итератором вы можете это сделать только один раз.</p><p id="b8287913-2afc-4c72-8368-da6fb93c9c1b" class="">
+</p><p id="e50dc02a-38d8-4ced-b2bf-0bb042c7ca5d" class="">
+</p><p id="963d13b5-60b7-4ba2-9ea5-7be0df6ef7ad" class="">
+</p><p id="520cdf37-f804-4a3e-9a0a-c8fd49b00529" class="">Практика номер 3</p><p id="a113adb7-a57b-4953-9f0d-16ba00132244" class="">
+</p></div></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

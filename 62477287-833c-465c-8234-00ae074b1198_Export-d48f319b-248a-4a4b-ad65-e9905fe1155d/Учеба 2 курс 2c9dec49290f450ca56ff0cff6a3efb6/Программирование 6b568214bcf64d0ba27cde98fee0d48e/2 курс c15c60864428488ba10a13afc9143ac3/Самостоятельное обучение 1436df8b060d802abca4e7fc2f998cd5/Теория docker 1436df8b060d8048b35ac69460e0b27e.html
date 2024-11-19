@@ -1,0 +1,738 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Теория docker</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1436df8b-060d-8048-b35a-c69460e0b27e" class="page sans"><header><h1 class="page-title">Теория docker</h1><p class="page-description"></p></header><div class="page-body"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Docker. Общие сведения</summary><div class="indented"><p id="1436df8b-060d-805d-a969-e3be8172152c" class="">Docker — это платформа для разработки, доставки и запуска контейнерных<br/>приложений. Docker позволяет создавать контейнеры, автоматизировать их запуск и<br/>развертывание, управляет жизненным циклом.<br/></p><p id="1436df8b-060d-806c-825a-ca8dec6a3673" class="">Компоненты экосистемы докера:</p><ul id="1436df8b-060d-809d-995b-f7ddc9a0e9e1" class="bulleted-list"><li style="list-style-type:disc">Системные компоненты:<ul id="1436df8b-060d-80d8-999c-faa527e2f47a" class="bulleted-list"><li style="list-style-type:circle">Docker-host — компьютер или виртуальный сервер, на<br/>котором установлен Docker.<br/></li></ul><ul id="1436df8b-060d-8061-a04f-d6f99af86b73" class="bulleted-list"><li style="list-style-type:circle">Docker-demon — центральный системный компонент, который<br/>управляет всеми процессами докера: создание образов, запуск и остановка контейнеров,скачивание образов. Работает Docker demon как фоновый процесс (демон) и постоянно следит за состоянием других компонентов.<br/></li></ul><ul id="1436df8b-060d-80f4-9449-f845cab1e4bf" class="bulleted-list"><li style="list-style-type:circle">Docker-client — утилита, предоставляющая API к докер-демону.</li></ul><ul id="1436df8b-060d-8017-964a-f44afa66a34c" class="bulleted-list"><li style="list-style-type:circle">Docker-compose — это средство <strong>для определения и запуска приложений Docker с несколькими контейнерами</strong>. При работе в Compose вы используете файл YAML для настройки служб приложения.</li></ul></li></ul><ul id="1436df8b-060d-80d6-a14d-e3828edca618" class="bulleted-list"><li style="list-style-type:disc">Переменные компоненты: <ul id="1436df8b-060d-806c-9936-d8777fd137bb" class="bulleted-list"><li style="list-style-type:circle">Docker-image(докер образ) — это шаблон (физически — исполняемый пакет), из которого создаются Docker-контейнеры. Образ хранит в себе всё необходимое для запуска приложения, помещенного в контейнер: код, среду выполнения, библиотеки, переменные окружения и конфигурационные файлы.</li></ul><ul id="1436df8b-060d-80c1-9097-ff5c12181e39" class="bulleted-list"><li style="list-style-type:circle">Docker container — стандартная единица программного обеспечения, в которую<br/>упаковано приложение со всеми необходимыми для его работы зависимостями — кодом приложения, средой запуска, системными инструментами, библиотеками и настройками Реестр Docker (Docker Registry) представляет собой удалённую платформу, используемую для хранения образов Docker.<br/></li></ul><ul id="1436df8b-060d-8085-bb8d-d5f18d1ca226" class="bulleted-list"><li style="list-style-type:circle">Docker registry — это <strong>стандартный способ хранения и распространения образов Docker</strong>.</li></ul><ul id="1436df8b-060d-809c-ba71-cffe89e712a3" class="bulleted-list"><li style="list-style-type:circle">Dockerfile — это <strong>конфигурационный файл, в котором описаны инструкции, которые будут применены при сборке Docker-образа и запуске контейнера.</strong></li></ul><ul id="1436df8b-060d-8042-a52b-de307076ca81" class="bulleted-list"><li style="list-style-type:circle">Docker-compose.yaml — конфигурационный файл кластера контейнеров.</li></ul><figure id="1436df8b-060d-80ef-a437-f008f13c838d" class="image"><a href="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image.png"><img style="width:651.96875px" src="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image.png"/></a></figure><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Docker demon</summary><div class="indented"><p id="1436df8b-060d-80bc-bc79-d5b37be9ec6d" class="">dockerd — центральный системный компонент, который управляет всеми<br/>процессами докера: создание образов, запуск и остановка контейнеров, скачивание образов.Работает Docker daemon как фоновый процесс (демон) и постоянно следит за состоянием других компонентов.<br/></p><p id="1436df8b-060d-8098-ae98-fb295fe66324" class="">Настройка демона:</p><ul id="1436df8b-060d-8077-9bd9-c1ebfc6bcfb2" class="bulleted-list"><li style="list-style-type:disc">Через файл /etc/docker/daemon.json</li></ul><ul id="1436df8b-060d-807a-aeb0-f57abc97ff46" class="bulleted-list"><li style="list-style-type:disc">Через флаги при запуске(dockerd —help</li></ul><p id="1436df8b-060d-8080-8d5e-fb27b45fd735" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Docker image </summary><div class="indented"><p id="1436df8b-060d-80ea-8349-d16b63e16e7d" class="">Docker образ — это шаблон (физически — исполняемый пакет), из которого<br/>создаются Docker-контейнеры. Образ хранит в себе всё необходимое для запуска<br/>приложения, помещенного в контейнер: код, среду выполнения, библиотеки, переменные окружения и конфигурационные файлы.<br/></p><p id="1436df8b-060d-8058-a368-d914b0912432" class="">Создает командой docker build </p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Слои</summary><div class="indented"><p id="1436df8b-060d-800f-97cd-d1b4fe3113ff" class="">В Dockerfile записываются команды и опции создания образа. При добавлении<br/>файлов каждый следующий слой соответственно содержит то что было добавлено именно нем. При изменении файл будет продублирован в том слое где его поменяли, а удаленныйпросто помечается как удаленный, так как его физически нельзя удалить, он уже былдобавлен в предыдущих слоях.<br/>Так как каждый слой не изменяет предыдущий, а формирует набор изменений, то<br/>Docker идет еще дальше и вычисляет хеш этих изменений, который становится<br/>идентификатором слоя. Такая схема позволяет сравнивать слои по хешам и не дублироватьих содержимое.<br/></p><figure id="1436df8b-060d-807d-a012-d06f13905dbf" class="image"><a href="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%201.png"><img style="width:623.96875px" src="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%201.png"/></a></figure><p id="1436df8b-060d-8078-9c4f-e008a27159dc" class="">
+</p><p id="1436df8b-060d-8071-8591-de59e60d434a" class="">Данные образа, из которого собирается контейнер, доступны только для чтения и существуют всё время. Данные же в котейнере могут быть удалены и загружен, но они удалятся после уничтожения контейнера. </p><figure id="1436df8b-060d-800e-b3a1-f864147e3165" class="image"><a href="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%202.png"><img style="width:623.984375px" src="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%202.png"/></a></figure><p id="1436df8b-060d-8025-aef9-ee32aa5393f1" class="">
+</p><p id="1436df8b-060d-80fc-9fd2-c0ca4a84bcf7" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Volumes</summary><div class="indented"><p id="1436df8b-060d-80fb-9ff7-f242ad3519bb" class="">В Docker есть несколько способов хранения данных. Наиболее распространенные:</p><ul id="1436df8b-060d-808b-8e68-ea5087bbfefc" class="bulleted-list"><li style="list-style-type:disc">тома хранения данных (docker volumes).</li></ul><ul id="1436df8b-060d-8043-92f8-d63e951a760c" class="bulleted-list"><li style="list-style-type:disc">монтирование каталогов с хоста (bind mount). Тома mount предназначены для<br/>добавления в контейнер имеющегося пути. Это помогает для добавления<br/>конфигурационной информации, а также наборов данных и статики с сайтов.<br/></li></ul><p id="1436df8b-060d-809d-ba9b-fb71b7f72487" class="">Рекомедуется использовать тома.</p><p id="1436df8b-060d-80a5-a0c4-f875bbde6d65" class="">Приемущества томов:</p><ul id="1436df8b-060d-80a3-b2d8-f637c81bcd40" class="bulleted-list"><li style="list-style-type:disc">Легче выполнять резервное копирование или миграцию.</li></ul><ul id="1436df8b-060d-80cc-85f4-c5765f67c9a5" class="bulleted-list"><li style="list-style-type:disc">Вы можете управлять томами с помощью команд Docker CLI или Docker API.</li></ul><ul id="1436df8b-060d-8083-84ce-d883ea6851f9" class="bulleted-list"><li style="list-style-type:disc">Тома работают как с контейнерами Linux, так и с Windows.</li></ul><ul id="1436df8b-060d-8061-86bc-d5ff5db37dcd" class="bulleted-list"><li style="list-style-type:disc">Тома можно более безопасно распределять между несколькими контейнерами.</li></ul><ul id="1436df8b-060d-802e-9902-ce7abf65d750" class="bulleted-list"><li style="list-style-type:disc">Драйверы позволяют хранить тома на удаленных хостах или у облачных<br/>провайдеров, шифровать содержимое томов или добавлять другие функции.<br/></li></ul><ul id="1436df8b-060d-8039-a975-c6785ce3feaf" class="bulleted-list"><li style="list-style-type:disc"> Содержимое новых томов может быть предварительно заполнено контейнером.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Сеть</summary><div class="indented"><p id="1436df8b-060d-80c3-bf4e-ce0ad2bdefeb" class="">Для того, чтобы работать с сетью Docker необходимы драйверы. Имеется несколько драйверов по умолчанию, которые обеспечивают основной функционал по работе с сетью:</p><ul id="1436df8b-060d-8031-9278-cc8ee8316e1e" class="bulleted-list"><li style="list-style-type:disc">none — отключение всех сетевых ресурсов.</li></ul><ul id="1436df8b-060d-8029-b5bb-e4a97a732d81" class="bulleted-list"><li style="list-style-type:disc">bridge — сетевой драйвер по умолчанию. По сути, это мост между контейнером ихостовой машиной. Мостовые сети обычно используются, когда приложения<br/>выполняются в автономных контейнерах, которые должны взаимодействовать друг с другом.<br/></li></ul><ul id="1436df8b-060d-8007-b5a6-d8d5b4f8f7e7" class="bulleted-list"><li style="list-style-type:disc">host — для автономных контейнеров устраняется сетевая изолированность между контейнером и хостом Docker и напрямую используются сетевые ресурсы хоста.</li></ul><ul id="1436df8b-060d-80fb-a764-d55b40212b99" class="bulleted-list"><li style="list-style-type:disc">overlay — наложенные сети соединяют несколько демонов Docker.</li></ul><ul id="1436df8b-060d-8012-8d53-d1554a0af7d2" class="bulleted-list"><li style="list-style-type:disc">macvlan - сети Macvlan позволяют присваивать контейнеру MAC-адрес,благодаря чему он выглядит как физическое устройство в сети.</li></ul><p id="1436df8b-060d-80e9-bf07-e7039f592450" class="">
+</p></div></details><p id="1436df8b-060d-80aa-aaee-f6d6df6c44ef" class="">
+</p></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Docker commands</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Управление контейнерами </summary><div class="indented"><p id="1436df8b-060d-80bc-b0db-ff2671f34a2e" class="">docker container my_command,</p><p id="1436df8b-060d-8064-a615-e1a5e3ed1caf" class="">где my_command:</p><ul id="1436df8b-060d-80d1-abc5-e3d5ca1ad408" class="bulleted-list"><li style="list-style-type:disc">create [options] image [command] [arg] — создание контейнера из образа.</li></ul><ul id="1436df8b-060d-80fe-b94a-c16d06b17dbb" class="bulleted-list"><li style="list-style-type:disc">start [options] container [container] — запуск существующего контейнера.</li></ul><ul id="1436df8b-060d-805a-8e89-c15414e95fe9" class="bulleted-list"><li style="list-style-type:disc">run [options] image [command] [arg] — создание контейнера и его запуск [-d –<br/>фоновый режим, -i – интерактивный режим, -t – запуск псевдотерминала, --rm –<br/>удалить после завершения, --name – имя контейнера, -p – проброс порта].<br/></li></ul><ul id="1436df8b-060d-80e5-99c2-e6ab2beab213" class="bulleted-list"><li style="list-style-type:disc">ls, ps [options] — вывод списка работающих контейнеров [-a – вкл. остановленные<br/>контейнеры, -q – только ID].<br/></li></ul><ul id="1436df8b-060d-80ce-bce6-f7b4fa768c1f" class="bulleted-list"><li style="list-style-type:disc">inspect [options] container [container] — отображает низкоуровневую<br/>информацию о конкретном объекте Docker. Полезным может быть:<br/><ul id="1436df8b-060d-80be-b47b-c2108d186cb7" class="bulleted-list"><li style="list-style-type:circle">конфигурация контейнера (параметры запуска) - привязка портов, переменные среды, монтирование томов и др.; </li></ul><ul id="1436df8b-060d-8096-9bf7-f644cb948487" class="bulleted-list"><li style="list-style-type:circle">сетевая конфигурация - информация о сетевых<br/>интерфейсах и настройках сети для контейнера; <br/></li></ul><ul id="1436df8b-060d-80f8-8d68-d31e60c69255" class="bulleted-list"><li style="list-style-type:circle">информация об образе, на основе которого был создан контейнер, включая тег, хеш образа и другие детали; </li></ul><ul id="1436df8b-060d-808a-87b8-c48acbc812d3" class="bulleted-list"><li style="list-style-type:circle">данные о хранилище данных.</li></ul></li></ul><ul id="1436df8b-060d-80e3-8d6d-e253a7ba64c3" class="bulleted-list"><li style="list-style-type:disc">logs [options] container — вывод логов [-f – непрерывный вывод, -n – количество<br/>отображаемых строк (от последней)].<br/></li></ul><ul id="1436df8b-060d-8058-b7a5-cc7d4954ecb5" class="bulleted-list"><li style="list-style-type:disc">stop [options] container [container] — остановка работающего контейнера с<br/>отправкой главному процессу контейнера сигнала SIGTERM, и, через некоторое<br/>время, SIGKILL.<br/></li></ul><ul id="1436df8b-060d-80fc-a8d5-e12c0252c0ee" class="bulleted-list"><li style="list-style-type:disc">kill [options] container [container] — остановка работающего контейнера с отправкой<br/>главному процессу контейнера сигнала SIGKILL.<br/></li></ul><ul id="1436df8b-060d-8057-b659-ce09c046d685" class="bulleted-list"><li style="list-style-type:disc">rm [options] container [container] — удаление контейнера (контейнер должен быть<br/>остановлен) [-f – удаление работающего контейнера сигналом SIGKILL].<br/></li></ul><ul id="1436df8b-060d-805e-9e1e-d106f172271d" class="bulleted-list"><li style="list-style-type:disc">exec [options] container command [arg] - выполнение команды внутри контейнера [-<br/>ti, -d].<br/></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Управление образом</summary><div class="indented"><p id="1436df8b-060d-80b7-92c9-d657a20e261a" class="">docker image my_command,</p><p id="1436df8b-060d-80f4-8fc7-d5dc3c57602d" class="">где my_command:</p><ul id="1436df8b-060d-80c0-b63e-da529859dab7" class="bulleted-list"><li style="list-style-type:disc">build [options] PATH | URL | -— сборка образа [-f - , -t – имя:тэг образа, -q –<br/>отключить вывод при сборке]<br/></li></ul><ul id="1436df8b-060d-8088-8ea5-e9e82eaa7b70" class="bulleted-list"><li style="list-style-type:disc">push [options] name[:tag] — отправка образа в удалённый реестр.</li></ul><ul id="1436df8b-060d-80ec-a3dd-ebd9388a8da4" class="bulleted-list"><li style="list-style-type:disc">ls [options] [repository[:tag]]— вывод списка образов [-a].</li></ul><ul id="1436df8b-060d-804c-b7a4-f75acff6b9a5" class="bulleted-list"><li style="list-style-type:disc">history [options] image — вывод сведений о слоях образа.</li></ul><ul id="1436df8b-060d-80fc-bfd8-c15d4b658a25" class="bulleted-list"><li style="list-style-type:disc">inspect [options] image [image] — вывод подробной информации об образе, в том<br/>числе — сведений о слоях.<br/></li></ul><ul id="1436df8b-060d-8086-88e3-ee6c8c7a995a" class="bulleted-list"><li style="list-style-type:disc">rm [options] image [image] — удаление образа.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Управления сетью</summary><div class="indented"><p id="1436df8b-060d-80f1-8e30-e2a747ad6d01" class="">docker network my_command,<br/>где my_command:<br/></p><ul id="1436df8b-060d-804a-9d0b-f114bdb83d78" class="bulleted-list"><li style="list-style-type:disc">ls [options] – список сетей.</li></ul><ul id="1436df8b-060d-805a-aeb8-cd3a97d465cf" class="bulleted-list"><li style="list-style-type:disc">connect [options] network container – подключить контейнер к сети.</li></ul><ul id="1436df8b-060d-804a-bda5-e4682868812a" class="bulleted-list"><li style="list-style-type:disc">create [options] network – создать сеть.</li></ul><ul id="1436df8b-060d-80bf-b2b6-c86a94d15c45" class="bulleted-list"><li style="list-style-type:disc">disconnect [options] network container – отключить контейнер от сети.</li></ul><ul id="1436df8b-060d-806a-b971-ff2157988ee2" class="bulleted-list"><li style="list-style-type:disc">inspect [options] network [network] – вывод подробной информации о сети.</li></ul><ul id="1436df8b-060d-80d8-b144-c1d7f17537e8" class="bulleted-list"><li style="list-style-type:disc">ls [options] – вывод списка сетей.</li></ul><ul id="1436df8b-060d-80c6-84e2-cb81603ab456" class="bulleted-list"><li style="list-style-type:disc">prune [options] – удаление всех неиспользуемых сетей.</li></ul><ul id="1436df8b-060d-802e-a24a-e24b03ca9b62" class="bulleted-list"><li style="list-style-type:disc">rm network [network] – удаление сети.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Управление томом</summary><div class="indented"><p id="1436df8b-060d-8080-988e-c91be3e90fb7" class="">docker volume my_command,<br/>где my_command:<br/></p><ul id="1436df8b-060d-8033-9027-d6221fcf1716" class="bulleted-list"><li style="list-style-type:disc">create [options] [volume] — создание тома</li></ul><ul id="1436df8b-060d-8026-b3fc-dd5f1c548b3e" class="bulleted-list"><li style="list-style-type:disc">ls [options] — вывод списка созданных томов [-q – только ID]</li></ul><ul id="1436df8b-060d-8080-8d61-f086294401be" class="bulleted-list"><li style="list-style-type:disc">inspect [options] volume [volume] — вывод подробной информации о томе</li></ul><ul id="1436df8b-060d-8025-bcf2-ed0c3c465d0b" class="bulleted-list"><li style="list-style-type:disc">prune [options] - удаление неиспользуемых томов</li></ul><ul id="1436df8b-060d-80b5-aad8-f2a51ea808be" class="bulleted-list"><li style="list-style-type:disc">rm [options] volume [volume] — удаление тома<br/>Для монтирования используются следующие флаги:<br/></li></ul><ul id="1436df8b-060d-803b-89f5-fddfe038f0f1" class="bulleted-list"><li style="list-style-type:disc">-v или --volume</li></ul><ul id="1436df8b-060d-8020-a661-de25265c8842" class="bulleted-list"><li style="list-style-type:disc">--mount<br/>Их различие в том, что bind mount более явно заставляет указывать источник и цель<br/>монтирования папки.<br/></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Dockerfile</summary><div class="indented"><p id="1436df8b-060d-802f-9cdf-e43e209ae465" class="">Dockerfile — это текстовый файл, который содержит набор инструкций по созданию образа<br/>Docker. С инструкций, набранных заглавными буквами, начинаются строки этого файла.<br/>После инструкций идут их аргументы. Инструкции, при сборке образа, обрабатываются сверху вниз. Они содержат информацию об операционной системе, выбранной платформе,фреймворках, библиотеках, инструментах, которые нужно установить.<br/></p><p id="1436df8b-060d-8073-900f-d198c74ed04a" class="">Dockerfile позволяет создавать одинаковое окружение для работы программы, независимо от машины, которая собирает образ.</p><ul id="1436df8b-060d-80ab-a201-d09512e7dc3f" class="bulleted-list"><li style="list-style-type:disc">FROM — задает базовый образ.</li></ul><ul id="1436df8b-060d-8033-84bb-c2e6cb899d95" class="bulleted-list"><li style="list-style-type:disc">LABLE — описывает метаданные. Например - сведения о том, кто создал и поддерживает образ.</li></ul><ul id="1436df8b-060d-8052-b1f7-cc765a58e205" class="bulleted-list"><li style="list-style-type:disc">ENV - устанавливает постоянные переменные среды.</li></ul><ul id="1436df8b-060d-809a-a7e7-e533242e1140" class="bulleted-list"><li style="list-style-type:disc">RUN — выполняет команду и создает слой образа. Используется для установки в контейнер пакетов. Может испольщоваться несколько раз.</li></ul><ul id="1436df8b-060d-800a-a822-d36d55cd4612" class="bulleted-list"><li style="list-style-type:disc">COPY — копирует в контейнер файлы и папки.</li></ul><ul id="1436df8b-060d-803c-ba1b-f8e1e3f8cb07" class="bulleted-list"><li style="list-style-type:disc">ADD — пкопирует файлы и папки в контейнер, может распаковывать локальные .tar файлы. </li></ul><ul id="1436df8b-060d-80d8-a907-fbd25c038059" class="bulleted-list"><li style="list-style-type:disc">CMD — описывает комнду с аргументами, которую нужно выполнить когда контейнер будет запущен. Аргументы могту быть переопределены при запуске контейнера. В файле может присутствовать лишь одна инструкция CMD.</li></ul><ul id="1436df8b-060d-8045-88d8-c4fac4463e1d" class="bulleted-list"><li style="list-style-type:disc">WORKDIR — задает рабочую директорию для следующей инструкции. </li></ul><ul id="1436df8b-060d-8079-a2c0-c90658086e1e" class="bulleted-list"><li style="list-style-type:disc">ARG — задает переменный для передачи в Docker  во время сборки образа.</li></ul><ul id="1436df8b-060d-80ca-93b2-f27f3ea17249" class="bulleted-list"><li style="list-style-type:disc">ENTRYPOINT - предоставляет команду с аргументами для вызова во время выполнения контейнера. Аргументы не переопределяются.</li></ul><ul id="1436df8b-060d-80ab-aec3-ca284c329005" class="bulleted-list"><li style="list-style-type:disc">EXPOSE — указывает на необходимость октрыть порт.</li></ul><ul id="1436df8b-060d-80f4-a1a6-d73a3e58221a" class="bulleted-list"><li style="list-style-type:disc">VOLUME — создает точку монтирования для работы с постоянным хранилищем.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Docker-compose</summary><div class="indented"><p id="1436df8b-060d-80a3-841c-d40e5e39de87" class="">Docker Compose файл - это .yaml файл, который определяет конфигурацию приложения, а именно версию файла, сервисы - контейнеры, которые должны быть запущены, сети, volumes, конфигурации и secrets. Несколько compose файлов могут быть объединены вместе. Такое объединение перезаписывает или дополняет другой compose файл, собирая несколько файлов в один.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1436df8b-060d-807d-91aa-f3f7789704f7" class="code"><code class="language-YAML">services:
+&lt;srv_name&gt; (postgres):
+replicas: &lt;amount&gt;
+image: &lt;image_name&gt;
+healthcheck:
+test: &lt;script&gt;
+interval: &lt;interval&gt;
+timeout: &lt;timeout&gt;
+retries: &lt;retries&gt;
+ports:
+&lt;port&gt;:&lt;port&gt;
+volumes:
+&quot;&lt;path&gt;:&lt;path&gt;&quot;
+environment:
+PGDATA: &lt;path&gt;
+POSTGRES_DB: &lt;database name&gt;
+TZ: &lt;timezone&gt;
+shm_size: &lt;size&gt;
+restart: &lt;&gt;
+command:
+&lt;command&gt;
+labels:
+logger_type: &lt;&gt;
+privileged: &lt;bool&gt;
+logging:
+driver: &lt;&gt;
+options:
+max-size: &lt;size&gt;
+max-file: &lt;amount&gt;
+compress: &lt;bool&gt;
+depends_on:
+&lt;&gt;
+или
+&lt;имя сервиса&gt;:
+condition: &lt;&gt;
+networks:
+&lt;&gt;
+container_name: &lt;container_name&gt;
+build:
+context: ./web-server/
+args:
+buildno:
+</code></pre><ul id="1436df8b-060d-807a-ad23-edf61ed241e2" class="bulleted-list"><li style="list-style-type:disc">services — основной раздел, где мы будем создавать и описывать наши сервисы<br/>(контейнеры docker).<br/></li></ul><ul id="1436df8b-060d-80e7-9d79-d9b21828d9d4" class="bulleted-list"><li style="list-style-type:disc">&lt;srv-name&gt; — название сервериса, на основе которого будет создано контейнер.</li></ul><ul id="1436df8b-060d-800b-9019-d81f95ecdc58" class="bulleted-list"><li style="list-style-type:disc">image — имя образа, который будет использоваться для создания контейнера.</li></ul><ul id="1436df8b-060d-8001-b7a4-f06785e03648" class="bulleted-list"><li style="list-style-type:disc">test — скрипт, который должен вернуть 0, если всё хорошо, 1 - если плохо.</li></ul><ul id="1436df8b-060d-80d3-b2f2-e586280bd442" class="bulleted-list"><li style="list-style-type:disc">interval — как часто запускать проверку.</li></ul><ul id="1436df8b-060d-8017-911e-f90e6b9435cc" class="bulleted-list"><li style="list-style-type:disc">timeout — как долго нужно ждать ответа.</li></ul><ul id="1436df8b-060d-80d7-b98f-e314dec3beb0" class="bulleted-list"><li style="list-style-type:disc">retries — сколько раз тест должен вернуть отрицательный результат, чтобы контейнер перешел в состояние &lt;&lt;unhealthy&gt;&gt;.</li></ul><ul id="1436df8b-060d-805e-8ae2-f402ab06832a" class="bulleted-list"><li style="list-style-type:disc">ports — на каких портах слушать и перебрасывать запросы.</li></ul><ul id="1436df8b-060d-80e1-a129-e7f226601afd" class="bulleted-list"><li style="list-style-type:disc">volumes — перечисление томов.</li></ul><ul id="1436df8b-060d-8031-a1aa-ca53181edabf" class="bulleted-list"><li style="list-style-type:disc">environment — задаем переменные окружения.</li></ul><ul id="1436df8b-060d-8037-a961-f5605e0f1cdc" class="bulleted-list"><li style="list-style-type:disc">shm_size — размер кактолога общей памяти в контейнере.</li></ul><ul id="1436df8b-060d-80b0-9716-f10dedabb2b5" class="bulleted-list"><li style="list-style-type:disc">restart — поведение контейнера при падении.</li></ul><ul id="1436df8b-060d-80d1-b189-c07a5b475fe4" class="bulleted-list"><li style="list-style-type:disc">command - команды, которые выполнятся при запуске.</li></ul><ul id="1436df8b-060d-802c-a862-ee714ae259bf" class="bulleted-list"><li style="list-style-type:disc">lables — метки.</li></ul><ul id="1436df8b-060d-801d-89f0-fa3adffcdb60" class="bulleted-list"><li style="list-style-type:disc">logger-type — указывает на тип логгера, который используется для записи логов.</li></ul><ul id="1436df8b-060d-80b0-aa29-caf5dbac074b" class="bulleted-list"><li style="list-style-type:disc">privileged — должен ли контейнер запускаться в привилегированном режиме.</li></ul><ul id="1436df8b-060d-8065-a3a2-d2932e7a934e" class="bulleted-list"><li style="list-style-type:disc">logging — логирование.</li></ul><ul id="1436df8b-060d-809c-8300-f2629231f123" class="bulleted-list"><li style="list-style-type:disc">driver — драйвер логирования для контейнера.</li></ul><ul id="1436df8b-060d-80ce-a95b-fdecf895c331" class="bulleted-list"><li style="list-style-type:disc">options — параметры журнала.</li></ul><ul id="1436df8b-060d-8038-991e-f54e085cf2ab" class="bulleted-list"><li style="list-style-type:disc">max-size — максимальный размер файла журнала.</li></ul><ul id="1436df8b-060d-80c3-a841-f80adf6b64a4" class="bulleted-list"><li style="list-style-type:disc">max-file — максимальное количество архивных файлов журнала, которые будут храниться до из удаления или перезаписи.</li></ul><ul id="1436df8b-060d-804b-bcad-cea72cb00b2c" class="bulleted-list"><li style="list-style-type:disc">compress — архивные файлы журнала не должны быть сжаты для экономии места.</li></ul><ul id="1436df8b-060d-8078-8235-d1a1a2ba54ac" class="bulleted-list"><li style="list-style-type:disc">depends_on — зависимости между различными сервисами, запускаемыми в составе docker compose.</li></ul><ul id="1436df8b-060d-8081-a607-c45c6cbf4bc5" class="bulleted-list"><li style="list-style-type:disc">networks — описание для сети.</li></ul><ul id="1436df8b-060d-8034-b65a-efb711978a4a" class="bulleted-list"><li style="list-style-type:disc">container_name — имя, которое получит созданный контейнер.</li></ul><ul id="1436df8b-060d-8080-b485-d3cdcf9701bd" class="bulleted-list"><li style="list-style-type:disc">build — указание на необходимость сборки из Dockerfile.</li></ul><ul id="1436df8b-060d-80ea-9dda-c1175d87aa28" class="bulleted-list"><li style="list-style-type:disc">context — путь, где нужно искать докерфайл относительно места, где находится docker-compose файл.</li></ul><ul id="1436df8b-060d-80d7-86f4-c242951f64dc" class="bulleted-list"><li style="list-style-type:disc">buildno — номер для сборки.</li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Отличия контейнера от виртуальной машины</summary><div class="indented"><p id="1436df8b-060d-807a-9331-e1d8045fade6" class="">Контейнеризация — это технология изоляции приложений и их зависимостей путём<br/>упаковки в единое исполняемое окружение — контейнер.<br/></p><p id="1436df8b-060d-80f7-a3f6-c896cd5c6821" class="">Контейнер — это стандартная единица программного обеспечения, в которую<br/>упаковано приложение со всеми необходимыми для его работы зависимостями — кодом<br/>приложения, средой запуска, системными инструментами, библиотеками и настройками<br/>Реестр Docker (Docker Registry) представляет собой удалённую платформу, используемую для хранения образов Docker.<br/></p><ul id="f6335c21-8466-49ad-ada8-fe873601c78d" class="bulleted-list"><li style="list-style-type:disc">Виртуальная машина эмулирует всю операционную систему, включая ядро, что требует больше ресурсов.</li></ul><ul id="28bd5d9e-030d-4a7e-b228-2d174ee31243" class="bulleted-list"><li style="list-style-type:disc">Контейнер использует ядро хост-системы и изолирует только приложение и его зависимости, что делает его более легковесным.</li></ul><ul id="7435d190-dd44-4b28-a26c-39dd98be7c91" class="bulleted-list"><li style="list-style-type:disc">Контейнеры запускаются и останавливаются быстрее, чем виртуальные машины.</li></ul><ul id="1436df8b-060d-8063-b961-cf6161321522" class="bulleted-list"><li style="list-style-type:disc">Контейнер представляет собой какой-то процесся, имеющий ограниченное представление о системе хоста за счет простраснства имен.</li></ul><p id="1436df8b-060d-80f5-803f-da0faea3b11d" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Выделение пространств имен для Docker-демона</summary><div class="indented"><p id="1436df8b-060d-8048-9ea4-e8b8333dc52f" class="">Docker-демон при запуске контейнера создает для него индивидуальный набор<br/>пространств имен 6 типов: <br/></p><ul id="1436df8b-060d-80a1-8abe-c87312bf1b4d" class="bulleted-list"><li style="list-style-type:disc">IPC - SystemV IPC, очереди сообщений POSIX. </li></ul><ul id="1436df8b-060d-8005-8d2b-daed57ef6fae" class="bulleted-list"><li style="list-style-type:disc">Network - сетевые устройства, сети, порты и тд.</li></ul><ul id="1436df8b-060d-8091-abbd-fc2a3bd2907b" class="bulleted-list"><li style="list-style-type:disc">Mount - точки монтирования.</li></ul><ul id="1436df8b-060d-8071-a355-fde0ed1272df" class="bulleted-list"><li style="list-style-type:disc">PID - id процессов.</li></ul><ul id="1436df8b-060d-8098-b578-f8d2c17025a0" class="bulleted-list"><li style="list-style-type:disc">UTS - имя хоста и доменное имя NIS.</li></ul><ul id="1436df8b-060d-8099-b2ce-fe70b3cdda18" class="bulleted-list"><li style="list-style-type:disc">cgroup - потребление системных ресурсов.</li></ul><p id="1436df8b-060d-80c7-96a9-d602ed0d7c00" class="">
+</p><p id="1436df8b-060d-8002-a503-fa18ccc1b25d" class="">В область видимости контейнера попадают только те объекты ядра хостовой ОС, которые были ему выделеныили им же порождены. Так, например, контейнер видит только те процессы, которые былизапущены им самим. При этом хостовая ОС видит их тоже, потому что пространства имен PID являются вложенными.</p><p id="1436df8b-060d-8019-b785-e64ecc18cf72" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Пространства имен Docker</summary><div class="indented"><h3 id="1436df8b-060d-807c-92f3-c5dc92728248" class="">PID изоляция процессов:</h3><p id="1436df8b-060d-808d-81ab-cd1d04873b72" class="">Так как ядро линукс поддерживет одно дерево процессов, то с введением пространства имен PID появилась возможность создавать вложенные деревья процессов, изолированные друг от друга. В результате другие процессы могут воспринимать себя как корневые, перемещаясь в вершину поддерева и получая в нем PID=1. Все процессы этого же поддерева тоже будут получать ID относительно данного пространства имен PID. Таким образом, некоторые процессы могут иметь несколько ID в зависимости от количества пространств имен процессов, в которых они находятся.</p><figure id="1436df8b-060d-8058-9907-e88b129bf6aa" class="image"><a href="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%203.png"><img style="width:679.984375px" src="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%203.png"/></a></figure><p id="1436df8b-060d-8013-aa1e-fc7c523b84d3" class="">Таким образом один и тот же процесс внутри контейнера будет виден с одним PID<br/>(например, по команде ps), а вне контейнера он же будет виден с другим PID.<br/></p><h3 id="1436df8b-060d-8096-b706-e6ae4be23979" class="">Network изоляция сетей:</h3><p id="1436df8b-060d-8043-8a4e-c7c6d66e08a6" class="">Сетевое пространство имен (network namespace) ограничивает видимость процесса<br/>внутри сети. Оно позволяет процессу располагать собственной частью сетевого стека хоста,<br/>к которому относятся список IP-адресов, список сокетов, таблица IP-маршрутизации,<br/>брандмауэр<br/></p><h3 id="1436df8b-060d-805d-adf3-de4a2224ff7c" class="">Mount изоляция файловой системы:</h3><p id="1436df8b-060d-8044-bbce-f6e7e9b26dc7" class="">Пространства имен mount (MNT) позволяют создавать деревья файловых систем под<br/>отдельные процессы, тем самым создавая представления корневой файловой системы.<br/></p><p id="1436df8b-060d-8026-9f94-fc7090cca38f" class="">С помощью пространств имён mount можно создавать полностью независимые файловые системы, ассоциируемые с различными процессами.</p><p id="1436df8b-060d-80a2-8a81-dd7369d65711" class="">Сначала дочерний процесс «видит» те же точки монтирования, что и родительский. Как только дочерний процесс перенесён в отдельное пространство имён, к нему можно примонтировать любую файловую системы, и это никак не затронет ни родительский процесс, ни другие пространства имён. Каждый дочерний процесс может получить доступ только к тем файлам, которые были смонтированы в его пространстве имен, что гарантирует изоляцию и независимость.</p><figure id="1436df8b-060d-807b-9395-ed37887afdd8" class="image"><a href="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%204.png"><img style="width:576.9885864257812px" src="%D0%A2%D0%B5%D0%BE%D1%80%D0%B8%D1%8F%20docker%201436df8b060d8048b35ac69460e0b27e/image%204.png"/></a></figure><p id="1436df8b-060d-80ae-8a7b-f755327916b8" class="">
+</p><h3 id="1436df8b-060d-8002-90fb-c0eff944c260" class="">USER:</h3><p id="1436df8b-060d-8054-a261-e53103d8c93b" class="">Пользовательские пространства имен изолируют связанные с безопасностью<br/>идентификаторы и атрибуты. В частности, ID пользователей, групповые ID, корневой<br/>каталог, ключи и возможности. Пользователь процесса и групповые ID внутри и вне user<br/>namespace могут отличаться. Например, процесс может иметь обычный<br/>непривилегированный UID вне этого пространства имен и в то же время иметь UID=0<br/>внутри него.<br/>Информация, связывающая UID из одного user namespace с другим, называется<br/>маппингом user ID.<br/></p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Создание контейнера средствами Linux</summary><div class="indented"><p id="1436df8b-060d-80ff-b19c-f7c0344eac67" class="">
+</p></div></details><p id="1436df8b-060d-8079-8f8e-d04d2ff020a1" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

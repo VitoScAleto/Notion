@@ -1,0 +1,695 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Криптография (1)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b549d17a-307d-492f-abbc-e797709caf1b" class="page sans"><header><h1 class="page-title">Криптография (1)</h1><p class="page-description"></p></header><div class="page-body"><ol type="1" id="d792b7cd-a553-4f5a-9c8d-93a378dade29" class="numbered-list" start="1"><li><strong>Множество</strong> - Коллекция различных объектов, которые могут быть<br/>числами, символами или другими элементами, рассматриваемыми как единое<br/>целое.<br/></li></ol><ol type="1" id="167b6e59-3a26-408d-bf7e-2e8f7e222e81" class="numbered-list" start="2"><li><strong>Алгебра</strong> - Математическая структура, которая состоит из<br/>множества, на котором определены одна или несколько операций,<br/>удовлетворяющих определенным аксиомам.<br/></li></ol><ol type="1" id="af0030ec-9c1c-49c0-8368-6e60f11ca348" class="numbered-list" start="3"><li><strong>Носитель алгебры</strong> - Основное множество элементов алгебраической<br/>структуры.<br/></li></ol><ol type="1" id="a73fb0a7-20be-4705-8b65-6ce0a537471e" class="numbered-list" start="4"><li><strong>Тип алгебры</strong> - Классификация алгебры в зависимости от её свойств<br/>и операций, например, группа, кольцо, поле.<br/></li></ol><ol type="1" id="c00759b8-2973-4790-9256-46d71a2f50e9" class="numbered-list" start="5"><li><strong>Сигнатура алгебры</strong> - Набор символов для обозначения операций и<br/>отношений в алгебре, а также арность (число аргументов) этих операций.<br/></li></ol><ol type="1" id="85df2d07-0939-4959-b483-920724f7432a" class="numbered-list" start="6"><li><strong>Группа</strong> - алгебра с одной ассоциативной бинарной операцией,<br/>обладающее единицей (нейтральным элементом) и для каждого элемента<br/>существует обратный.<br/></li></ol><p id="38eef032-3b4d-4861-96c5-71c8b9528398" class="">Ассоциативность: (a * b) * c = a * (b * c)<br/>Существование нейтрального элемента: a * e = e * a = a<br/>Существование обратного элемента: a * a^(-1) = a^(-1) * a = e<br/></p><p id="d4bb8482-5545-411a-96af-fdd9d582c876" class="">
+</p><p id="f43fab6a-8413-42df-b458-1b20972c75b6" class=""><strong>Кольцо</strong> - алгебра с двумя операциями (обычно сложение и<br/>умножение), где сложение образует абелеву группу, а умножение<br/>ассоциативно и дистрибутивно относительно сложения.<br/></p><p id="ecdbdd78-797b-46bb-b301-8a4b60cd157c" class="">
+</p><p id="e9db6ce5-a4c4-4d47-9e8a-c206256deb63" class="">Абелева группа по сложению — это абелева группа, в которой операция<br/>называется сложением. Она удовлетворяет следующим аксиомам:<br/></p><p id="c9422368-d9dc-45c8-8b6e-7351bc116c9e" class="">Ассоциативность сложения: ((a + b) + c = a + (b + c)) для всех элементов (a, b,<br/>c).<br/>Коммутативность сложения: (a + b = b + a) для всех элементов (a, b).<br/>Существование нейтрального элемента (нуль): существует элемент (0) такой,<br/>что (a + 0 = 0 + a = a) для любого элемента (a).<br/>Существование обратного элемента (отрицание): для каждого элемента (a)<br/>существует элемент (-a) такой, что (a + (-a) = (-a) + a = 0).<br/>Ассоциативность умножения: (a * b) * c = a * (b * c)<br/>Дистрибутивность: a * (b + c) = (a * b) + (a * c)<br/></p><p id="6dc92b69-e726-4679-a1c5-578527f19922" class="">
+</p><p id="b7bbad00-e944-4720-b0ee-5697ae6633cb" class="">
+</p><ol type="1" id="d313eba4-f93c-483c-bce5-7aae384e46fa" class="numbered-list" start="1"><li><strong>Ассоциативное кольцо</strong> - Кольцо, в котором операция умножения<br/>ассоциативна.<br/></li></ol><ol type="1" id="2275d7e5-0040-43b0-a1e9-50fdd2b807b1" class="numbered-list" start="2"><li>Свойства операции умножения:<ul id="264236cb-8746-4e2b-94a0-d0dfadebfbf2" class="bulleted-list"><li style="list-style-type:disc">Ассоциативность умножения: (a * b) * c = a * (b * c).</li></ul></li></ol><ol type="1" id="1153f05a-54cf-4926-94db-c1009d12e668" class="numbered-list" start="3"><li>Распределительное свойство: Умножение распределяется относительно<br/>сложения:<br/><ul id="e432c250-f12c-4988-b227-d7a8a92ce276" class="bulleted-list"><li style="list-style-type:disc">a * (b + c) = (a * b) + (a * c).</li></ul><ul id="759e0e35-cc3b-45ed-88d8-438971f0403b" class="bulleted-list"><li style="list-style-type:disc">(a + b) * c = (a * c) + (b * c).</li></ul></li></ol><p id="86f93c35-1203-4ec0-bdb2-fc0049f33e99" class="">Обратите внимание, что для ассоциативного кольца не требуется, чтобы<br/>умножение было коммутативным (то есть a * b не обязательно равно b * a).<br/>Однако, если умножение также коммутативно, то кольцо называется<br/>коммутативным кольцом.<br/></p><p id="ed97bcda-b7e6-4ef7-859f-dc3cfcc1fd2a" class="">
+</p><ol type="1" id="8ba20bcd-0f19-45fc-8142-e26539bb1043" class="numbered-list" start="1"><li><strong>Кольцо с единицей</strong> - Кольцо, содержащее мультипликативный<br/>нейтральный элемент (единица), такой что для любого элемента <br/><code>a</code> из кольца<br/>выполняется <br/><code>a * 1 = a = 1 * a</code>.</li></ol><ol type="1" id="7ccf5340-95a1-4671-ae8b-d618b827f271" class="numbered-list" start="2"><li><strong>Коммутативное кольцо</strong> - Кольцо, в котором операция умножения<br/>коммутативна (порядок умножения элементов не важен).<br/></li></ol><ol type="1" id="1f814964-4c91-48df-aabf-2a748a5ff622" class="numbered-list" start="3"><li><strong>Поле</strong> - Коммутативное кольцо с единицей, в котором каждый<br/>ненулевой элемент имеет мультипликативный обратный.<br/></li></ol><p id="149b17ba-ce37-48d0-b1d8-294c46b8dd78" class="">Кольцо с единицей<br/>Существование мультипликативного обратного элемента для всех ненулевых<br/>элементов: a * a^(-1) = 1<br/></p><ol type="1" id="fa25b56e-5262-490e-82e1-bba06f4ab6f3" class="numbered-list" start="1"><li><strong>Делимость в кольце целых чисел</strong>: факт делимости означает, что для<br/>двух целых чисел <br/><code>a</code> и <code>b</code>, <code>b</code> делит <code>a</code> (обозначается <code>a | b</code>), если<br/>существует целое число <br/><code>c</code> такое, что <code>a = bc</code>.</li></ol><ol type="1" id="7d21892b-9b6a-4e21-9fea-a782fda3d44e" class="numbered-list" start="2"><li><strong>Отношение сравнения</strong>: два элемента <code>a</code> и <code>b</code> считаются<br/>сравнимыми по модулю <br/><code>n</code>, если <code>(a - b) | n</code>. Это отношение обладает<br/>свойствами:<br/>- <br/><strong>Рефлексивность</strong>: <code>a ≡ a (mod n)</code>;<br/>- <br/><strong>Симметричность</strong>: если <code>a ≡ b (mod n)</code>, то <code>b ≡ a (mod n)</code>;<br/>- <br/><strong>Транзитивность</strong>: если <code>a ≡ b (mod n)</code> и <code>b ≡ c (mod n)</code>, то <code>a ≡ c (mod n)</code>.</li></ol><ol type="1" id="0a9c6eb6-a91c-4f41-ab8a-3caa6918e6f1" class="numbered-list" start="3"><li><strong>Простые числа</strong> - Числа больше единицы, имеющие только два<br/>различных натуральных делителя: единицу и само число.<br/></li></ol><ol type="1" id="43d5d6cf-ab35-489e-9b6a-3caefd08bd57" class="numbered-list" start="4"><li><strong>Распределение простых чисел (Эратосфен)</strong>: метод для нахождения<br/>всех простых чисел до заданного числа <br/><code>n</code> с использованием решета<br/>Эратосфена.<br/>Создайте список чисел от 2 до n (где n — это предел, до которого нужно найти<br/>простые числа).<br/>Начните с первого числа в списке (2). Это число простое. Удалите все его кратные<br/>из списка.<br/>Перейдите к следующему числу в списке (следующему не удаленному). Это число<br/>также простое. Удалите все его кратные из списка.<br/>Повторяйте шаг 3 до тех пор, пока не пройдете все числа в списке.<br/>На выходе у вас останутся только простые числа.<br/></li></ol><ol type="1" id="cec08b7a-c307-4f45-8ac8-74cb7c96f919" class="numbered-list" start="5"><li><strong>Основная теорема арифметики</strong> - Каждое натуральное число больше<br/>1 можно представить в виде произведения простых чисел, и это<br/>представление уникально, за исключением порядка множителей.<br/></li></ol><ol type="1" id="289d4c2d-9481-4201-bced-fcaa3c3169af" class="numbered-list" start="6"><li><strong>Функция Эйлера</strong> - Функция <code>φ(n)</code>, определяющая количество<br/>натуральных чисел до <br/><code>n</code>, взаимно простых с <code>n</code>.</li></ol><ol type="1" id="18f34e88-6324-45d6-a841-0fecfe97e4c3" class="numbered-list" start="7"><li><strong>Каноническое разложение числа</strong> - Представление числа в виде<br/>произведения степеней простых чисел.<br/></li></ol><ol type="1" id="637d9aea-c26a-42ea-bf2e-0420b7e56fa0" class="numbered-list" start="8"><li><strong>Вычисление функции Эйлера</strong>:<br/>- По определению: подсчет чисел, взаимно простых с <br/><code>n</code>.<br/>- Через каноническое разложение числа <br/><code>n = p1^k1 * p2^k2 * ... * pm^km</code>,<br/><br/><code>φ(n) = n * (1 - 1/p1) * (1 - 1/p2) * ... * (1 - 1/pm)</code>.</li></ol><ol type="1" id="ca972b60-c6d0-4499-bb91-4761ffc2d67e" class="numbered-list" start="9"><li><strong>Теорема Эйлера</strong> - Если <code>a</code> и <code>n</code> взаимно просты, то <code>a^φ(n) ≡ 1 (mod n)</code>.</li></ol><ol type="1" id="a9a61ecb-5456-449d-a562-b68fb44f558d" class="numbered-list" start="10"><li><strong>Теорема Ферма</strong> - Если <code>p</code> — простое число и <code>a</code> не делится на <code>p</code>,<br/>то <br/><code>a^(p-1) ≡ 1 (mod p)</code>.</li></ol><ol type="1" id="29188439-0916-4b4e-82fb-d15e9163f081" class="numbered-list" start="11"><li><strong>Алгоритм Евклида</strong> - Метод нахождения наибольшего общего<br/>делителя (НОД) двух чисел:<br/></li></ol><p id="214c63ca-0b58-4719-9173-38f66fe01e67" class="">math<br/>gcd(a, b) = gcd(b, a % b)<br/></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bd2b5f19-462d-4b10-a590-aed697f5e69e" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Пример: `gcd(48, 18)`, шаги: `18, 48 % 18 = 12`, `12, 18 % 12 = 6`, `6, 12 % 6
+</code></pre><p id="461ae63f-d1f7-4aef-b6f5-46e8e6049109" class="">= 0<code>-&gt;</code>gcd = 6`.</p><p id="85184570-3c0f-4fba-ba98-244b8161ff6a" class="">
+</p><p id="40174034-5008-434e-967e-8dcf4d39e374" class=""><strong>Расширенный алгоритм Евклида</strong> - это метод для нахождения<br/>наибольшего общего делителя (НОД) двух целых чисел и коэффициентов,<br/>выражающих НОД как линейную комбинацию этих чисел. Позволяет<br/>находить также коэффициенты <br/><code>x</code> и <code>y</code> такие, что <code>ax + by = НОД(a, b)</code>.</p><p id="68f48c22-3c77-49ee-a19a-dd7bc8b8f982" class="">Алгоритм возведения в степень по модулю (метод &quot;Square and<br/>Multiply&quot;):<br/></p><figure id="c16d3d8e-0c73-4e69-bd01-44c81a7e016c" class="image"><a href="%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F%20(1)%20b549d17a307d492fabbce797709caf1b/Untitled.png"><img style="width:708px" src="%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F%20(1)%20b549d17a307d492fabbce797709caf1b/Untitled.png"/></a></figure><p id="92610850-f0b0-4b9f-85a5-f01360377ecb" class="">Алгоритм экспоненциального возведения с использованием цикла:</p><figure id="6b1f8f63-847d-4a7e-b541-67fccc4c04f3" class="image"><a href="%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F%20(1)%20b549d17a307d492fabbce797709caf1b/Untitled%201.png"><img style="width:708px" src="%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F%20(1)%20b549d17a307d492fabbce797709caf1b/Untitled%201.png"/></a></figure><p id="c7d7e23c-290f-41b9-950e-d788fd171030" class="">
+</p><p id="2ea2bddc-b8dd-4f57-b5d7-f571f4d62992" class="">
+</p><ol type="1" id="554be5bf-0f00-49b4-a846-123302c1c5bc" class="numbered-list" start="1"><li>Нахождение числа, обратного по модулю (a^-1 mod p):<br/>Пример: Найти обратное к ( a = 17 ) по модулю ( m = 43 ).<br/>Применяем алгоритм Евклида для нахождения НОД (17, 43):<br/>43 = 17 * 2 + 9<br/>17 = 9 * 1 + 8<br/>9 = 8 * 1 + 1<br/>8 = 1 * 8 + 0<br/>НОД (17, 43) = 1<br/>Обратное существует, так как НОД = 1. Теперь используем расширенный<br/>алгоритм Евклида для нахождения коэффициентов:<br/>1 = 9 - 8 * 1<br/>8 = 17 - 9 * 1<br/>9 = 43 - 17 * 2<br/>Подставляем 8 из второго уравнения в первое:<br/>1 = 9 - (17 - 9 * 1) * 1<br/>1 = 9 - 17 + 9<br/>1 = 2 * 9 - 17<br/>Теперь подставляем 9 из третьего уравнения:<br/>1 = 2 * (43 - 17 * 2) - 17<br/>1 = 2 * 43 - 4 * 17 - 17<br/>1 = 2 * 43 - 5 * 17<br/>Следовательно, коэффициенты:<br/>[ 1 = 2 * 43 - 5 * 17 ]<br/>Здесь ( x = -5 ). Поскольку мы ищем положительное значение, добавим модуль 43 к (-5):<br/>[ x = -5 + 43 = 38 ]<br/>Ответ: Обратное к 17 по модулю 43 равно 38.<br/>Таким образом, число 38 является обратным к 17 по модулю 43,<br/></li></ol><ol type="1" id="ab76e1e5-9424-41bc-952c-185bd146fa3c" class="numbered-list" start="2"><li><strong>Криптография</strong> - Наука о методах обеспечения конфиденциальности,<br/>целостности и аутентификации информации, включая шифрование и<br/>дешифрование данных.<br/></li></ol><ol type="1" id="a292ac07-b19d-4197-a4a3-ff58128cdf8b" class="numbered-list" start="3"><li><strong>Стеганография</strong> - Метод сокрытия данных внутри других,<br/>незаметных данных, таких как изображения или аудиофайлы, для<br/>обеспечения секретности сообщений.<br/></li></ol><ol type="1" id="2392abd5-bf5b-40b9-872b-965fe71d7486" class="numbered-list" start="4"><li><strong>Классическая задача передачи сообщений</strong> - Задача, в которой<br/>отправитель А должен безопасно передать сообщение получателю В, так<br/>чтобы третьи лица не смогли узнать содержание сообщения.<br/></li></ol><p id="ac1af574-f73e-40b8-8fb4-7d9a7b5fe376" class="">Генерация ключей (открытого и закрытого).<br/>Шифрование сообщения с использованием открытого ключа.<br/>Дешифрование сообщения с использованием закрытого ключа.<br/></p><ol type="1" id="70b0ff85-9379-4e32-9d2d-057922be95cb" class="numbered-list" start="1"><li><strong>Классическая система секретной связи</strong> - Система, в которой для<br/>шифрования и дешифрования используется один и тот же секретный ключ.<br/></li></ol><ol type="1" id="7188236c-5d42-4cd0-a047-56c9965d8922" class="numbered-list" start="2"><li><strong>Односторонняя функция</strong> - Функция, которую легко вычислить в<br/>одном направлении, но трудно или невозможно - в обратном без специальной<br/>дополнительной информации.<br/></li></ol><ol type="1" id="13ea92c0-69ae-4bf1-a192-9b63d4bc172c" class="numbered-list" start="3"><li><strong>Дискретный логарифм</strong> - Задача нахождения числа x, при котором<br/>a^x ≡ b (mod p) для данного a, b и p, где a и b - целые числа, а p - простое<br/>число. это задача нахождения числа x для заданных a, b и p, таких что a^x ≡<br/>b (mod p). Простыми словами, необходимо найти x, если известно, что b<br/>является x-ой степенью числа a по модулю p. Эта задача считается сложной,<br/>и на ней основана безопасность многих криптографических систем. Это,<br/>грубо говоря, и есть односторонняя функция. Поэтому, если она заставляет<br/>тебя решить эту парашу, то протестуй, верещи и моли Богов, чтобы она<br/>поняла, что ты не хуем деланный<br/></li></ol><p id="3c02007b-a8eb-4905-a69d-57b0d37e7d5c" class="">Метод перебора (brute-force) заключается в следующем:</p><p id="332ab58a-66f8-41ff-b9ba-54ec0c8448a7" class="">Перебираем все возможные значения x от 0 до p-1.<br/>Для каждого значения x вычисляем a^x mod p.<br/>Если a^x mod p = b, то x найдено.<br/></p><ol type="1" id="b582cc1e-cbaa-4f9c-98b5-107ea7f142ba" class="numbered-list" start="1"><li><strong>Криптопротокол Диффи-Хеллмана</strong> - Первая система с открытым<br/>ключом, позволяющая двум сторонам согласовать общий секретный ключ по<br/>незащищенному каналу связи.<br/>Допустим, Алиса и Боб хотят создать общий секретный ключ, используя<br/>алгоритм Диффи-Хеллмана. Они выполняют следующие шаги:<br/></li></ol><p id="d7ed3954-6835-413b-a9e9-144d3a523d6a" class="">Алиса и Боб выбирают общие параметры: основание g (допустим, 5) и<br/>большое простое число p (допустим, 23).<br/></p><p id="5be35cf3-657d-45b7-9be9-ef6c6c590f6d" class="">Алиса генерирует свой секретный ключ a (допустим, 6) и вычисляет свой<br/>публичный ключ A:<br/></p><p id="5d055e54-5faf-4bd7-b0ea-4d62e1106504" class="">A = g^a mod p = 5^6 mod 23 = 15625 mod 23 = 8.</p><p id="caf2ffbc-b915-404e-8d0a-888018e2791f" class="">Боб генерирует свой секретный ключ b (допустим, 9) и вычисляет свой<br/>публичный ключ B:<br/></p><p id="cce692f9-7c39-4181-aa60-a7281f622611" class="">B = g^b mod p = 5^9 mod 23 = 1953125 mod 23 = 11.</p><p id="bff78f77-ab59-4044-825e-e9afba5e9ced" class="">Алиса и Боб обмениваются публичными ключами: Алиса отправляет свой<br/>ключ A (8) Бобу, а Боб отправляет свой ключ B (11) Алисе.<br/></p><p id="b953df81-f2dc-45c7-ad60-3e973c0538cd" class="">Алиса вычисляет общий секретный ключ s:</p><p id="5dbede52-5453-4e9d-af0a-829fc5175bfd" class="">s = B^a mod p = 11^6 mod 23 = 1771561 mod 23 = 9.</p><p id="5d336b09-e1ea-46a6-ac2d-0566f798056c" class="">Боб вычисляет общий секретный ключ s:</p><p id="b5468102-2918-4ba8-968f-ca2253ab3e08" class="">s = A^b mod p = 8^9 mod 23 = 134217728 mod 23 = 9.</p><ol type="1" id="64cdb698-71fd-4011-8722-11999379b1bb" class="numbered-list" start="1"><li><strong>Криптопротокол Шамира</strong> - Протокол, основанный на идее<br/>разделения секрета, где секрет делится на части, и для восстановления<br/>оригинального секрета требуется определенное количество частей.<br/>Определение параметров: s секретное значение, которое необходимо<br/>разделить. t пороговое значение (минимальное количество частей,<br/>необходимых для восстановления секрета). n количество частей, на которые<br/>будет разделен секрет. p большое простое число, большее, чем s и все<br/>коэффициенты многочлена.<br/></li></ol><p id="63e07f7c-a7ad-46c7-afe5-2af971f0fcb0" class="">Пусть s = 1234, t = 3, n = 5, p = 2087.<br/>Генерируем многочлен степени 2: f(x) = 1234 + 2x + 3x^2 mod 2087.<br/>Вычисляем части: (1, f(1)) = (1, 1239) (2, f(2)) = (2, 1254) (3, f(3)) = (3, 1279)<br/>(4, f(4)) = (4, 1314) (5, f(5)) = (5, 1359)<br/></p><p id="9d46312e-766c-48da-bac6-bafd9e72c465" class="">Используем части (1, 1239), (2, 1254), (3, 1279) и интерполяцию Лагранжа: s<br/>= 1239 * 2 * 3 / ((2-1)(3-1)) + 1254 * 1 * 3 / ((1-2)(3-2)) + 1279 * 1 * 2 / ((1-3)(2-<br/>3)) mod 2087 s = 1234 mod 2087<br/></p><p id="61b5ac7c-1e14-4398-ac19-7cda70e0a9a3" class="">ПОЛНАЯ ДРИСНЯ НАХУЙ АХАХАХАХ если у тебя это спросили то ты<br/>либо должен эту хуйню был сдавать на второй практике либо ты неудачник<br/>ебаный (бля надеюсь она меня не спросит это)<br/></p><ol type="1" id="9dc3ea9e-65c2-4cb2-a2b2-760740e1e7cc" class="numbered-list" start="1"><li>Криптопротокол Эль-Гамаля — это асимметричная криптографическая<br/>схема, основанная на сложности задачи дискретного логарифма. Она<br/>используется для шифрования и цифровой подписи. Ниже приведен<br/>алгоритм и основные формулы для шифрования и расшифрования.<br/></li></ol><p id="b91fbd50-e791-44f4-92a5-5800c8dcc7ed" class="">Параметры</p><ol type="1" id="b3e9b0aa-5af2-4992-89c6-7c0926eaefe3" class="numbered-list" start="1"><li>Выбирается большое простое число p.</li></ol><ol type="1" id="c7a52720-032b-4107-ba96-6d3a4b589866" class="numbered-list" start="2"><li>Выбирается первообразный корень g по модулю p.</li></ol><p id="cad4c9e7-150d-4638-acd8-13819a2662a8" class="">Генерация ключей</p><ol type="1" id="8dbe3e11-a745-4cbd-8273-b1c674b74aa8" class="numbered-list" start="1"><li>Выбирается случайное приватное число x (секретный ключ), где 1 &lt; x &lt; p-</li></ol><ol type="1" id="6dec1761-0e4c-42a0-b64a-993a0ac4e68a" class="numbered-list" start="2"><li></li></ol><ol type="1" id="4c3085a2-c487-436d-b0a9-942612b97e69" class="numbered-list" start="3"><li>Вычисляется открытый ключ y как y = g^x mod p.</li></ol><ol type="1" id="4fd02306-6cca-4aeb-8caa-a54b64104cc8" class="numbered-list" start="4"><li>Открытый ключ: (p, g, y).</li></ol><ol type="1" id="7ffb37c3-82df-4848-8977-633418a96365" class="numbered-list" start="5"><li>Приватный ключ: x.</li></ol><p id="190869f1-c366-4709-bd05-38fe63be4edf" class="">Шифрование</p><p id="d16a7dfe-eb97-4cb0-9c37-504021bf1f3c" class="">Для шифрования сообщения m отправитель использует открытый ключ<br/>получателя (p, g, y):<br/></p><ol type="1" id="4b4fc30c-f4e0-4a02-9873-8392fcecf322" class="numbered-list" start="1"><li>Выбирается случайное число k, где 1 &lt; k &lt; p-1.</li></ol><ol type="1" id="1925a951-c1fe-4e5c-851c-55b1e3a8813b" class="numbered-list" start="2"><li>Вычисляется c_1 = g^k mod p.</li></ol><ol type="1" id="388e3128-e875-4d77-bd3a-a1047aac64eb" class="numbered-list" start="3"><li>Вычисляется c_2 = m * y^k mod p.</li></ol><ol type="1" id="1555976f-1727-492e-8644-055b5db921a1" class="numbered-list" start="4"><li>Шифротекст: (c_1, c_2).</li></ol><p id="1e8a3909-08a4-4f4f-80ba-7867fbe6a64a" class="">Расшифрование</p><p id="af597389-34de-45fd-9ee7-5ac961646eb3" class="">Для расшифрования шифротекста (c_1, c_2) получатель использует свой<br/>приватный ключ x:<br/></p><ol type="1" id="368936b8-ca8a-43d5-a20c-ac0e3e568e67" class="numbered-list" start="1"><li>Вычисляется s = c_1^x mod p.</li></ol><ol type="1" id="021cc038-5523-4f2f-944e-0aea52659ecf" class="numbered-list" start="2"><li>Вычисляется s^(-1) (обратное значение s по модулю p).</li></ol><ol type="1" id="b867e3ff-25b8-464b-a3b2-9207d572c4a2" class="numbered-list" start="3"><li>Расшифрованное сообщение: m = c_2 * s^(-1) mod p.</li></ol><p id="4cafddae-8f5f-4741-90f0-73c7ad344b68" class="">Пример</p><ol type="1" id="3fd3adfb-177f-49cc-b148-993e4110cc03" class="numbered-list" start="1"><li>Пусть p = 23, g = 5.</li></ol><ol type="1" id="d540e464-7610-4ede-b57d-5e1ad2bee684" class="numbered-list" start="2"><li>Выбирается приватный ключ x = 6.</li></ol><ol type="1" id="3d578c93-5607-446c-bc35-b68ed5786ca8" class="numbered-list" start="3"><li>Вычисляется открытый ключ y = g^x mod p = 5^6 mod 23 = 8.</li></ol><p id="129a8068-6d82-487a-a30b-289315be71e9" class="">Шифрование</p><ol type="1" id="5db94871-f2b4-4477-b7a2-ef52782a7cbc" class="numbered-list" start="1"><li>Сообщение m = 15.</li></ol><ol type="1" id="df02e1d0-e605-4c66-9f3a-5312c0517ff2" class="numbered-list" start="2"><li>Выбирается случайное число k = 10.</li></ol><ol type="1" id="f3a6ae19-a293-485e-aecb-793fc6e1c3b4" class="numbered-list" start="3"><li>Вычисляется c_1 = g^k mod p = 5^10 mod 23 = 9.</li></ol><ol type="1" id="594eb20f-e2d3-4d81-8409-6b118421bb91" class="numbered-list" start="4"><li>Вычисляется c_2 = m * y^k mod p = 15 * 8^10 mod 23 = 21.</li></ol><ol type="1" id="5652e972-c113-4360-a8c6-b30765b5646f" class="numbered-list" start="5"><li>Шифротекст: (c_1, c_2) = (9, 21).</li></ol><p id="3aebc1a0-87ef-446c-99ca-5c6718ab4739" class="">Расшифрование</p><ol type="1" id="4cca1aba-91f6-4e7b-802e-68975a75318d" class="numbered-list" start="1"><li>Вычисляется s = c_1^x mod p = 9^6 mod 23 = 4.</li></ol><ol type="1" id="497b0c6b-f95f-4144-92f6-d13af78eea77" class="numbered-list" start="2"><li>Вычисляется s^(-1) mod p. Обратное значение 4 по модулю 23: 4^(-1) ≡ 6<br/>mod 23.<br/></li></ol><ol type="1" id="fdbdb466-d485-42de-95f6-44dd94d3900a" class="numbered-list" start="3"><li>Расшифрованное сообщение: m = c_2 * s^(-1) mod p = 21 * 6 mod 23 = 15.</li></ol><ol type="1" id="5db974b3-4122-41d1-a60a-9a592c739184" class="numbered-list" start="4"><li><strong>Криптопротокол RSA</strong> - Один из наиболее известных и широко<br/>используемых криптопротоколов с открытым ключом, основанный на<br/>сложности факторизации больших целых чисел.<br/>Выбрать два простых числа p и q.<br/>Вычислить их произведение n = p * q, которое будет использоваться в качестве<br/>модуля для шифрования и дешифрования.<br/>Вычислить значение функции Эйлера от числа n, которое обозначается как φ(n) =<br/>(p-1) * (q-1).<br/>Выбрать целое число e, которое является взаимно простым с φ(n) и меньше φ(n).<br/>Вычислить число d, обратное к числу e по модулю φ(n), то есть d * e ≡ 1 (mod<br/>φ(n)).<br/>Полученные значения (e, n) составляют публичный ключ, который распространяется всем<br/>пользователям, а (d, n) – приватный ключ, который хранится в секрете.<br/>Для шифрования сообщения m с помощью публичного ключа (e, n) используется формула<br/>c = m^e mod n, где c – зашифрованное сообщение.<br/>Для дешифрования зашифрованного сообщения c с помощью приватного ключа (d, n)<br/>используется формула m = c^d mod n, где m – исходное сообщение.<br/></li></ol><ol type="1" id="697a2ffe-332a-4b7c-ae59-7276a1a0c746" class="numbered-list" start="5"><li><strong>Удостоверяющий центр</strong> - Доверенная третья сторона, которая<br/>выдает цифровые сертификаты, подтверждающие идентичность владельцев<br/>ключей в системах с открытым ключом.<br/></li></ol><ol type="1" id="04bbc7eb-79d3-4406-9a1f-df566579bd8e" class="numbered-list" start="6"><li><strong>Симметричная криптография</strong>:</li></ol><ul id="65849804-4155-4489-8671-dcd914cad498" class="bulleted-list"><li style="list-style-type:disc">Плюсы: Быстродействие и эффективность в обработке больших объемов<br/>данных.<br/></li></ul><ul id="80f9cb08-8227-45b9-80fa-ab5df3510f23" class="bulleted-list"><li style="list-style-type:disc">Минусы: Необходимость безопасного распределения секретных ключей<br/>между сторонами.<br/></li></ul><ul id="a45bd9d4-6e72-428a-aa49-6bc539382263" class="bulleted-list"><li style="list-style-type:disc">Особенности: Использование одного и того же ключа для шифрования и<br/>дешифрования сообщений.<br/></li></ul><ol type="1" id="88e5ada8-f17f-41a6-b8f7-529d85afa142" class="numbered-list" start="1"><li><strong>Асимметричная криптография</strong>:</li></ol><ul id="0939c98e-a7ca-4e8c-93fd-d81eda79ae37" class="bulleted-list"><li style="list-style-type:disc">Плюсы: Отсутствие необходимости в распределении секретных ключей,<br/>возможность использования цифровых подписей.<br/></li></ul><ul id="126b453b-2cbf-4246-bebb-5d9e3cc2b471" class="bulleted-list"><li style="list-style-type:disc">Минусы: Медленнее симметричной криптографии, требует больше<br/>вычислительных ресурсов.<br/></li></ul><ul id="c54a490e-b387-4f07-bc73-95e5871dec62" class="bulleted-list"><li style="list-style-type:disc">Особенности: Использование пары ключей - открытого и закрытого, где<br/>открытый ключ доступен публично, а закрытый ключ остается у получателя.<br/></li></ul><ol type="1" id="12220179-1651-4503-9405-9a441c422851" class="numbered-list" start="1"><li><strong>Стандарты криптографии</strong> - Наборы правил и рекомендаций,<br/>регламентирующие применение криптографических методов в различных<br/>системах информационной безопасности.<br/></li></ol><ol type="1" id="b5b9ac27-92a4-4129-9c80-d7fa7b730527" class="numbered-list" start="2"><li><strong>Схема шифрования с открытым ключом</strong>:</li></ol><ul id="0134b10c-1a61-48f4-8deb-a99ecc61a421" class="bulleted-list"><li style="list-style-type:disc">Плюсы: Облегчает управление ключами, поддерживает цифровые подписи<br/>и шифрование.<br/></li></ul><ul id="bd730598-7f2b-427e-8fc4-764f86a3e7ce" class="bulleted-list"><li style="list-style-type:disc">Минусы: Медленнее схем шифрования с закрытым ключом, требует<br/>наличия инфраструктуры открытых ключей для управления ключами и<br/>идентификации.<br/><br/></li></ul><p id="f7281143-c613-48e6-a13d-2a05ac9808fa" class="">
+</p><p id="2e486756-1f38-45a1-ae4c-2502e0832764" class=""><br/>Big O нотация — это математическая нотация, используемая для описания<br/>асимптотического поведения функций. В информатике она часто<br/>применяется для описания временной или пространственной сложности<br/>алгоритмов, то есть как быстро растет время выполнения или объем памяти,<br/>требуемый алгоритмом, по мере увеличения размера входных данных.<br/></p><p id="193c999c-80ae-4834-966e-c59c8e27f5f0" class="">
+</p><p id="317537f8-3dac-4b0a-9aa8-22dd22f1bcbe" class="">Основные функции Big O нотации:</p><ol type="1" id="b7dc0c60-5ba4-46fe-a114-14a25fb10d8e" class="numbered-list" start="1"><li><strong>O(1)</strong> — Константная сложность: время выполнения не зависит от<br/>размера входных данных. Пример: доступ к элементу массива по индексу.<br/></li></ol><ol type="1" id="510050b5-6e66-474d-81f4-0203dc5fad2d" class="numbered-list" start="2"><li><strong>O(log n)</strong> — Логарифмическая сложность: время выполнения растет<br/>логарифмически с увеличением размера входных данных. Пример: бинарный<br/>поиск.<br/></li></ol><ol type="1" id="9ceead2a-2a14-483e-a37d-c0d38b41eb38" class="numbered-list" start="3"><li><strong>O(n)</strong> — Линейная сложность: время выполнения растет линейно с<br/>увеличением размера входных данных. Пример: простой проход по массиву.<br/></li></ol><ol type="1" id="73d56745-3273-4fb0-98f8-2092060014ef" class="numbered-list" start="4"><li><strong>O(n log n)</strong> — Линейно-логарифмическая сложность: время<br/>выполнения растет быстрее, чем линейно, но медленнее, чем квадратично.<br/>Пример: алгоритмы сортировки слиянием и быстрой сортировки.<br/></li></ol><ol type="1" id="c942f9e1-b5a1-4561-a0ce-a6702bc5eb86" class="numbered-list" start="5"><li><strong>O(n^2)</strong> — Квадратичная сложность: время выполнения растет<br/>квадратично с увеличением размера входных данных. Пример: сортировка<br/>пузырьком, сортировка вставками.<br/></li></ol><ol type="1" id="b49e5282-f45b-4f31-8427-416bf7475348" class="numbered-list" start="6"><li><strong>O(2^n)</strong> — Экспоненциальная сложность: время выполнения растет<br/>экспоненциально с увеличением размера входных данных. Пример: решение<br/>задачи коммивояжера методом полного перебора.<br/></li></ol><ol type="1" id="b1334ec0-6119-47dd-80ce-34ea80b040e0" class="numbered-list" start="7"><li><strong>O(n!)</strong> — Факториальная сложность: время выполнения растет<br/>факториально с увеличением размера входных данных. Пример: полный<br/>перебор всех перестановок.<br/></li></ol><p id="9e3ba8b0-5a8f-4c3c-a895-18ca57372de4" class="">Big O нотация позволяет сравнивать эффективность алгоритмов, игнорируя<br/>постоянные множители и менее значимые члены, фокусируясь на росте<br/>функции при больших значениях входных данных.<br/></p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
